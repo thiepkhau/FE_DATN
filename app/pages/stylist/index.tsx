@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { CustomersResponse } from '@/types/Customer.type';
 import { getStaffs } from '@/app/apis/customer/getStaffs';
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 export default function StylistPage() {
 	const {
@@ -51,9 +52,11 @@ export default function StylistPage() {
 			<div className='container-lg'>
 				{/* Header */}
 				<div className='flex items-center justify-center gap-4 mb-6'>
-					<Button variant='ghost' size='icon' className='text-white'>
-						<ArrowLeft className='h-6 w-6' />
-					</Button>
+					<Link href='service'>
+						<Button variant='ghost' size='icon' className='text-white'>
+							<ArrowLeft className='h-6 w-6' />
+						</Button>
+					</Link>
 					<h1 className='text-xl font-semibold'>CHOOSE STYLIST</h1>
 				</div>
 
