@@ -72,6 +72,10 @@ export default function Offers({ onApply }: OffersProps) {
 						<ArrowLeft className='w-6 h-6' />
 					</Link>
 					<h1 className='text-xl md:text-2xl font-bold text-white text-center flex-1'>Offer from Barber</h1>
+
+
+
+
 				</div>
 
 				{/* Tabs */}
