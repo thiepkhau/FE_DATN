@@ -58,12 +58,14 @@ export default function Banner() {
 											onChange={(e) => setPhone(e.target.value)}
 											className='flex-1 h-12 bg-white text-black placeholder:text-gray-500'
 										/>
-										<Button
-											type='submit'
-											className='h-12 px-6 bg-[#F5A524] hover:bg-[#F5A524]/90 text-black font-medium'
-										>
-											BOOK NOW
-										</Button>
+										<Link href='book'>
+											<Button
+												type='submit'
+												className='h-12 px-6 bg-[#F5A524] hover:bg-[#F5A524]/90 text-black font-medium'
+											>
+												BOOK NOW
+											</Button>
+										</Link>
 									</form>
 								</div>
 
