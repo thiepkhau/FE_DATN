@@ -42,6 +42,9 @@ export default function Chats() {
 				<span className='absolute top-1/2 left-1/2 w-[120%] h-[120%] bg-[#389df0]/50 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-ripple'></span>
 				<Image src={Zalo} alt='btn-chat' className='w-14 h-14 animate-shake' />
 			</Link>
+
+
+
 		</div>
 	);
 }
