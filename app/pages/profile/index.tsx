@@ -112,7 +112,6 @@ export default function ProfilePage() {
 					confirmButtonText: 'OK',
 
 
-
 				});
 			}
 			// Update other profile data
