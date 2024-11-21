@@ -56,15 +56,8 @@ const bookings: Booking[] = [
 	{ id: 9, name: 'C', phone: '567', service: 'Nhuộm & Uốn', stylist: 'Thiep', date: '05/08/2024', status: 'Not Yet' },
 	{ id: 10, name: 'D', phone: '5678', service: 'Cạo râu', stylist: 'Hieu', date: '06/08/2024', status: 'Not Yet' },
 	{ id: 11, name: 'E', phone: '678', service: 'Cắt tóc', stylist: 'Thiep', date: '07/08/2024', status: 'Done' },
-	{
-		id: 12,
-		name: 'F',
-		phone: '6789',
-		service: 'Uốn & Nhuộm',
-		stylist: 'Xink DO',
-		date: '08/08/2024',
-		status: 'Done',
-	},
+	{ id: 12, name: 'F', phone: '6789', service: 'Uốn & Nhuộm', stylist: 'Xink DO', date: '08/08/2024', status: 'Done',},
+	{ id: 13, name: 'X', phone: '66789', service: ' Gội Đầu', stylist: 'Thiep', date: '09/08/2024', status: 'Done',}
 ];
 
 export default function BookingManagement() {
