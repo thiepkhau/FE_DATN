@@ -13,7 +13,6 @@ import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 import { getCombos } from '@/app/apis/combo/getCombo';
 import { useRouter } from 'next/navigation';
-import Link from "next/link";
 
 interface Service {
 	id: number;
@@ -111,11 +110,7 @@ export default function Service() {
 				{/* Header */}
 				<div className='relative p-4 space-y-4 z-10 max-w-xl mx-auto'>
 					<div className='flex items-center justify-between gap-4 text-white'>
-						<Link href='book'>
-							<Button variant='ghost' size='icon' className='text-white'>
-								<ArrowLeft className='h-6 w-6' />
-							</Button>
-						</Link>
+						<ArrowLeft className='w-6 h-6' />
 						<span>Select service(s = 1000d)</span>
 						<span></span>
 					</div>

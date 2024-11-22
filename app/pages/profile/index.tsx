@@ -110,8 +110,6 @@ export default function ProfilePage() {
 					text: 'Avatar updated successfully.',
 					icon: 'success',
 					confirmButtonText: 'OK',
-
-
 				});
 			}
 			// Update other profile data

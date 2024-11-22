@@ -68,9 +68,9 @@ export default function Offers({ onApply }: OffersProps) {
 		<div className='w-full max-w-3xl mx-auto'>
 			<div className='rounded-xl flex flex-col gap-4'>
 				<div className='flex items-center gap-4 p-4 md:p-2'>
-					{/*<Link href='' className='text-white hover:text-gray-200'>*/}
-					{/*	<ArrowLeft className='w-6 h-6' />*/}
-					{/*</Link>*/}
+					<Link href='#' className='text-white hover:text-gray-200'>
+						<ArrowLeft className='w-6 h-6' />
+					</Link>
 					<h1 className='text-xl md:text-2xl font-bold text-white text-center flex-1'>Offer from Barber</h1>
 				</div>
 
@@ -113,12 +113,11 @@ export default function Offers({ onApply }: OffersProps) {
 						<div className='space-y-3 mb-6'>
 							<div className='flex gap-2'>
 								<Input
-									placeholder='Enter code here...'
+									placeholder='Enter promo code'
 									className='bg-white/15 border-0 text-white placeholder:text-gray-400'
 								/>
 								<Button className='bg-blue-500 hover:bg-blue-600 text-white px-6'>Apply</Button>
 							</div>
-							{/*//bt Scan QR code*/}
 							<Button variant='outline' className='w-full bg-gray-200 hover:bg-gray-300 text-black gap-2'>
 								<QrCode className='w-5 h-5' />
 								Scan QR code
