@@ -307,7 +307,7 @@ const ComboManagement = () => {
 				</TableBody>
 			</Table>
 
-			{/* Pagination Controls */}
+			{/* Pagination Controls. */}
 			<div className='flex justify-center gap-4 items-center mt-4'>
 				<Button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>
 					Previous
@@ -321,7 +321,7 @@ const ComboManagement = () => {
 				</Button>
 			</div>
 
-			{/* Add Combo Dialog */}
+			{/* Add Combo Dialog. */}
 			<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 				<DialogOverlay />
 				<DialogContent className='bg-white p-6'>

@@ -34,7 +34,7 @@ export default function Booking() {
 	const itemsPerPage = 10;
 	const totalPages = Math.ceil(bookings.length / itemsPerPage);
 
-	// Get items for the current page
+	// Get items for the current page...
 	const getCurrentPageItems = () => {
 		const startIndex = (currentPage - 1) * itemsPerPage;
 		const endIndex = startIndex + itemsPerPage;

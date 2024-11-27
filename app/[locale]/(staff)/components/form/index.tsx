@@ -51,7 +51,7 @@ export default function EditStylistForm({ stylist, mode, onClose }: EditStylistF
 		},
 	});
 
-	// Fetch service types for dropdown
+	// Fetch service types for dropdown.
 	const { data: serviceTypeData, isLoading: isLoadingServiceType } = useQuery<ApiResponseServiceType>({
 		queryKey: ['dataServiceType'],
 		queryFn: getServiceTypes,

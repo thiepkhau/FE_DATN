@@ -97,7 +97,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 	}, []);
 
 	const toggleSubMenu = (itemHref: string) => {
-		// Toggle the submenu open/close based on the current state
+		// Toggle the submenu open/close based on the current state.
 		setOpenSubMenu((prev) => (prev === itemHref ? null : itemHref));
 	};
 
