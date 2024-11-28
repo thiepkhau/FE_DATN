@@ -16,16 +16,16 @@ export default function Chats() {
 				<Image src={AI} alt='btn-chat' className='w-14 h-14 animate-shake' />
 			</Link>
 
-			{/* Zalo */}
-			<Link
-				href='#'
-				className='relative rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all group'
-			>
-				<span className='absolute top-1/2 left-1/2 w-[120%] h-[120%] bg-[#de3ee4]/50 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-ripple'></span>
-				<Image src={Mess} alt='btn-chat' className='w-14 h-14 animate-shake' />
-			</Link>
+			{/* mess */}
+			{/*<Link*/}
+			{/*	href='#'*/}
+			{/*	className='relative rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all group'*/}
+			{/*>*/}
+			{/*	<span className='absolute top-1/2 left-1/2 w-[120%] h-[120%] bg-[#de3ee4]/50 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-ripple'></span>*/}
+			{/*	<Image src={Mess} alt='btn-chat' className='w-14 h-14 animate-shake' />*/}
+			{/*</Link>*/}
 
-			{/* Messenger */}
+			{/* what */}
 			<Link
 				href='#'
 				className='relative rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all group'
@@ -34,14 +34,14 @@ export default function Chats() {
 				<Image src={What} alt='btn-chat' className='w-14 h-14 animate-shake' />
 			</Link>
 
-			{/* WhatsApp */}
-			<Link
-				href='#'
-				className='relative rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all group'
-			>
-				<span className='absolute top-1/2 left-1/2 w-[120%] h-[120%] bg-[#389df0]/50 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-ripple'></span>
-				<Image src={Zalo} alt='btn-chat' className='w-14 h-14 animate-shake' />
-			</Link>
+			{/* zalo */}
+			{/*<Link*/}
+			{/*	href='#'*/}
+			{/*	className='relative rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all group'*/}
+			{/*>*/}
+			{/*	<span className='absolute top-1/2 left-1/2 w-[120%] h-[120%] bg-[#389df0]/50 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-ripple'></span>*/}
+			{/*	<Image src={Zalo} alt='btn-chat' className='w-14 h-14 animate-shake' />*/}
+			{/*</Link>*/}
 		</div>
 	);
 }
