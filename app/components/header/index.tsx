@@ -67,6 +67,7 @@ export default function Header() {
 		() => [
 			{ code: 'en', label: 'English', flag: '🇺🇸' },
 			{ code: 'ko', label: '한국어', flag: '🇰🇷' },
+			{ code: 'vn', label: 'VietNam', flag: '' },
 		],
 		[]
 	);
