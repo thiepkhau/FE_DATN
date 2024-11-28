@@ -85,6 +85,7 @@ const ComboManagement = () => {
 	const serviceOptions = services.map((service) => ({
 		value: service.id,
 		label: service.name,
+
 	}));
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
