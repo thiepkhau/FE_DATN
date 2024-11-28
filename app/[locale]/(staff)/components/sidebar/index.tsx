@@ -57,7 +57,7 @@ export interface NavItem {
 
 const navItems: NavItem[] = [
 	{ title: 'MANAGEMENT STAFF SHIFT', href: '/management-staff/staff-shift', icon: Clock4 },
-	{ title: 'MANAGEMENT SHIFT', href: '/management-staff/shift', icon: ChevronsUpDown },
+	{ title: 'MANAGEMENT BOOKING', href: '/management-staff/booking', icon: ChevronsUpDown },
 ];
 
 export default function AppSidebar({ children }: { children: React.ReactNode }) {
@@ -97,7 +97,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 	}, []);
 
 	const toggleSubMenu = (itemHref: string) => {
-		// Toggle the submenu open/close based on the current state.
+		// Toggle the submenu open/close based on the current state
 		setOpenSubMenu((prev) => (prev === itemHref ? null : itemHref));
 	};
 

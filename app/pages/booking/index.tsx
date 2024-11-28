@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import { ApiResponseServiceType } from '@/types/ServiceType.type';
 import { useQuery } from '@tanstack/react-query';
 import { getStaffShiftById } from '@/app/apis/staff-shift/getStaffShiftById';
+import { getBookings } from '@/app/apis/booking/getBooking';
 
 interface Image {
 	id: number;
@@ -61,6 +62,7 @@ interface Shift {
 
 interface BookingData {
 	selectedCombos: Combo[];
+	selectedServices: Service[];
 	totalPayment: number;
 	selectedStylist?: Stylist;
 }
@@ -91,7 +93,7 @@ const getNextWeek = (date: Date) => {
 };
 
 export default function BookingForm() {
-	const [date, setDate] = useState<Date | undefined>(addDays(new Date(), 1)); // Set initial date to tomorrow
+	const [date, setDate] = useState<Date | undefined>(addDays(new Date(), 1));
 	const [selectedTime, setSelectedTime] = useState<string | null>(null);
 	const [bookingData, setBookingData] = useState<BookingData | null>(null);
 	const currentDate = new Date();
@@ -99,7 +101,7 @@ export default function BookingForm() {
 	const currentWeek = getNextWeek(currentDate);
 	const router = useRouter();
 
-	const staff_id = bookingData?.selectedStylist?.id || 0; // Đảm bảo có giá trị mặc định
+	const staff_id = bookingData?.selectedStylist?.id || 0;
 	const {
 		data: staffShiftByIdData,
 		isLoading,
@@ -107,10 +109,19 @@ export default function BookingForm() {
 	} = useQuery({
 		queryKey: ['dataShiftById', { week: currentWeek, year: currentYear, staff_id }],
 		queryFn: () => getStaffShiftById({ week: currentWeek, year: currentYear, staff_id }),
-		enabled: !!staff_id, // Chỉ gọi API khi staff_id có giá trị
+		enabled: !!staff_id,
 	});
 
-	console.log('staffShiftByIdData', staffShiftByIdData);
+	const {
+		data: bookingDatas,
+		isLoading: isLoadingBookings,
+		error: errorBookings,
+	} = useQuery<ApiResponseBooking>({
+		queryKey: ['dataBookings'],
+		queryFn: getBookings,
+	});
+
+	const bookings = bookingDatas?.payload || [];
 
 	useEffect(() => {
 		const storedData = localStorage.getItem('bookingData');
@@ -124,12 +135,32 @@ export default function BookingForm() {
 		}
 	}, []);
 
-	// Hàm kiểm tra xem timeSlot có bị trùng với ca làm việc đã có
+	// Hàm kiểm tra xem timeSlot có bị trùng với ca làm việc đã có hoặc đã COMPLETED không
 	const isTimeSlotUnavailable = (time: string, selectedDate: Date | undefined): boolean => {
 		if (!staffShiftByIdData?.payload || !selectedDate) return false;
 
 		const selectedDateString = format(selectedDate, 'yyyy-MM-dd');
 
+		// Check completed bookings first
+		const isCompletedBooking = bookings.some((booking) => {
+			if (booking.status !== 'COMPLETED') return false;
+
+			const bookingStartTime = new Date(booking.startTime);
+			const bookingEndTime = new Date(booking.endTime);
+
+			if (format(bookingStartTime, 'yyyy-MM-dd') !== selectedDateString) return false;
+
+			// Parse selected time to compare
+			const [slotHours, slotMinutes] = time.replace('h', ':').split(':').map(Number);
+			const slotTime = new Date(1970, 0, 1, slotHours, slotMinutes);
+
+			// Check if the slot time is within the booking time range
+			return slotTime >= bookingStartTime && slotTime < bookingEndTime;
+		});
+
+		if (isCompletedBooking) return true; // If there's a completed booking, the slot is unavailable
+
+		// Check if the time falls within the staff's shift
 		return staffShiftByIdData.payload.some((shift: Shift) => {
 			if (shift.date !== selectedDateString) return false;
 
@@ -146,7 +177,7 @@ export default function BookingForm() {
 		});
 	};
 
-	const timeSlots = generateTimeSlots('07:20', '16:20', 20); // Generate time slots from 7:20 to 16:20, with 20-minute intervals
+	const timeSlots = generateTimeSlots('07:20', '16:20', 20);
 
 	const handleBooking = async () => {
 		if (!bookingData || !date || !selectedTime) {
@@ -156,7 +187,7 @@ export default function BookingForm() {
 
 		const staff_id: any = bookingData.selectedStylist?.id;
 		const comboIds = bookingData.selectedCombos.map((combo) => combo.id);
-		const serviceIds = bookingData.selectedCombos.flatMap((combo) => combo.services.map((service) => service.id));
+		const serviceIds = bookingData.selectedServices.map((service) => service.id);
 		const note = 'Customer requested booking';
 
 		// Parse `selectedTime` into hours and minutes
@@ -201,7 +232,7 @@ export default function BookingForm() {
 					<div className='bg-white/10 backdrop-blur-sm rounded-3xl p-6 space-y-6'>
 						<div className='space-y-4'>
 							<h2 className='text-xl text-white font-semibold'>Choose service</h2>
-							<Link href='/service'>
+							<Link href='/combo'>
 								<Button className='flex items-center justify-between w-full bg-white hover:bg-gray-300'>
 									<div className='flex items-center'>
 										<Scissors className='mr-2 h-4 w-4 text-gray-900' />
@@ -212,24 +243,44 @@ export default function BookingForm() {
 							</Link>
 						</div>
 
-						{/* Display selected combos below the button */}
-						{bookingData && bookingData?.selectedCombos?.length > 0 && (
-							<div className='mt-4 p-4 bg-white/20 rounded-lg space-y-2'>
-								<h3 className='text-lg font-semibold text-white'>Selected Combos</h3>
-								<div className='space-y-1'>
-									{bookingData.selectedCombos.map((combo) => (
-										<div key={combo.id} className='flex justify-between text-white'>
-											<span>{combo.name}</span>
-											<span>{combo.price.toLocaleString()}₫</span>
+						{/* Display selected combos and services below the button */}
+						{bookingData &&
+							(bookingData.selectedCombos?.length > 0 || bookingData.selectedServices?.length > 0) && (
+								<div className='mt-4 p-4 bg-white/20 rounded-lg space-y-2'>
+									<h3 className='text-lg font-semibold text-white'>Selected Items</h3>
+									{/* Display selected combos */}
+									{bookingData.selectedCombos.length > 0 && (
+										<div className='space-y-1'>
+											<h4 className='text-md text-white font-semibold'>Selected Combos</h4>
+											{bookingData.selectedCombos.map((combo) => (
+												<div key={combo.id} className='flex justify-between text-white'>
+													<span>{combo.name}</span>
+													<span>{combo.price.toLocaleString()}₫</span>
+												</div>
+											))}
 										</div>
-									))}
+									)}
+
+									{/* Display selected services */}
+									{bookingData.selectedServices.length > 0 && (
+										<div className='space-y-1 mt-2'>
+											<h4 className='text-md text-white font-semibold'>Selected Services</h4>
+											{bookingData.selectedServices.map((service) => (
+												<div key={service.id} className='flex justify-between text-white'>
+													<span>{service.name}</span>
+													<span>{service.price.toLocaleString()}₫</span>
+												</div>
+											))}
+										</div>
+									)}
+
+									{/* Display total payment */}
+									<div className='flex justify-between text-white font-semibold border-t border-gray-400 pt-2 mt-2'>
+										<span>Total Payment:</span>
+										<span>{bookingData.totalPayment.toLocaleString()}₫</span>
+									</div>
 								</div>
-								<div className='flex justify-between text-white font-semibold border-t border-gray-400 pt-2 mt-2'>
-									<span>Total Payment:</span>
-									<span>{bookingData.totalPayment.toLocaleString()}₫</span>
-								</div>
-							</div>
-						)}
+							)}
 
 						<div className='space-y-4'>
 							<h2 className='text-xl text-white font-semibold'>Choose date, time & stylist</h2>
