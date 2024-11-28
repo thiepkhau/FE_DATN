@@ -123,6 +123,7 @@ export default function Booking() {
 													<Badge
 														variant='secondary'
 														className='bg-gray-700 text-gray-200 hover:bg-gray-600'
+
 													>
 														{new Date(booking.startTime).toLocaleString()}
 													</Badge>
