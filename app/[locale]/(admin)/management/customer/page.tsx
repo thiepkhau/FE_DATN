@@ -112,7 +112,7 @@ export default function Customer() {
 		<PageContainer>
 			<div className='p-6 bg-gray-900'>
 				<div className='container-lg flex flex-col gap-5'>
-					<h1 className='text-2xl font-bold text-center text-white'>CUSTOMER MANAGEMENT</h1>
+					<h1 className='text-2xl font-bold text-center text-white'>CUSTOMER MANAGEMENT. </h1>
 
 					{/* Customer Table */}
 					<div className='rounded-xl bg-gray-800/50 backdrop-blur-sm overflow-hidden border border-gray-700'>
