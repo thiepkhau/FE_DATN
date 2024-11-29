@@ -205,6 +205,7 @@ export default function Booking() {
 								className='text-gray-400'
 								onClick={goToNextPage}
 								disabled={currentPage === totalPages}
+
 							>
 								<ChevronRight className='h-4 w-4' />
 							</Button>
