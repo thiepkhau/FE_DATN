@@ -67,6 +67,7 @@ interface BookingData {
 	selectedStylist?: Stylist;
 }
 
+//tạo khoảng thời gian
 const generateTimeSlots = (startTime: string, endTime: string, interval: number): string[] => {
 	const timeSlots: string[] = [];
 	const start = new Date(`1970-01-01T${startTime}:00`);
@@ -81,7 +82,7 @@ const generateTimeSlots = (startTime: string, endTime: string, interval: number)
 
 	return timeSlots;
 };
-
+//tạo tuần
 const getNextWeek = (date: Date) => {
 	const nextWeekDate = new Date(date);
 	nextWeekDate.setDate(date.getDate() + 7);
@@ -92,6 +93,7 @@ const getNextWeek = (date: Date) => {
 	return Math.ceil((dayOfYear + 1) / 7);
 };
 
+//manager booking, cho phép user chọn date & time booking
 export default function BookingForm() {
 	const [date, setDate] = useState<Date | undefined>(addDays(new Date(), 1));
 	const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -112,6 +114,7 @@ export default function BookingForm() {
 		enabled: !!staff_id,
 	});
 
+	//lấy data booking
 	const {
 		data: bookingDatas,
 		isLoading: isLoadingBookings,
@@ -121,6 +124,7 @@ export default function BookingForm() {
 		queryFn: getBookings,
 	});
 
+	//save date khi load web không mất
 	const bookings = bookingDatas?.payload || [];
 
 	useEffect(() => {
