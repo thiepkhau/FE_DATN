@@ -109,12 +109,12 @@ export default function Booking() {
 													>
 														{booking?.bookingDetails?.length
 															? booking.bookingDetails
-																.map(
-																	(detail) =>
-																		detail?.service?.name ||
-																		'Service Name Not Available'
-																)
-																.join(', ')
+																	.map(
+																		(detail) =>
+																			detail?.service?.name ||
+																			'Service Name Not Available'
+																	)
+																	.join(', ')
 															: 'No services'}
 													</Badge>
 												</TableCell>
@@ -152,7 +152,7 @@ export default function Booking() {
 																className='hover:bg-gray-700'
 															>
 																<MoreHorizontal className='h-4 w-4' />
-																<span className='sr-only'> Open menu </span>
+																<span className='sr-only'>Open menu</span>
 															</Button>
 														</DropdownMenuTrigger>
 														<DropdownMenuContent align='end' className='w-[160px]'>

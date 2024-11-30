@@ -144,7 +144,7 @@ export default function Feedback() {
 												<DropdownMenuTrigger asChild>
 													<Button variant='ghost' size='icon' className='hover:bg-gray-700'>
 														<MoreHorizontal className='h-4 w-4' />
-														<span className='sr-only'> Open menu </span>
+														<span className='sr-only'>Open menu</span>
 													</Button>
 												</DropdownMenuTrigger>
 												<DropdownMenuContent align='end' className='w-[160px]'>
