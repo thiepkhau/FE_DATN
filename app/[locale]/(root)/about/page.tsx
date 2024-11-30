@@ -24,37 +24,35 @@ export default function AboutPage() {
 							<p className='mx-auto max-w-2xl text-lg md:text-xl'>
 								Với sự mệnh tôn vinh vẻ đẹp và sự tự tin của phái mạnh
 							</p>
-							{/* Introduction Section */}
-							<section className='py-16'>
-								<div className='container'>
-									<div className='mx-auto max-w-3xl space-y-6 text-center flex flex-col gap-3'>
-										<p className='text-lg text-muted-foreground border border-slate-200 p-4 rounded-md'>
-											Barber mang đến trải nghiệm cắt tóc đẳng cấp, kết hợp giữa kỹ thuật tinh tế, không gian
-											hiện đại và dịch vụ chăm sóc tận tâm.
-										</p>
-										<div className='grid gap-8 md:grid-cols-2 text-white'>
-											<div className='space-y-4 rounded-lg border border-slate-200 p-4'>
-												<h3 className='text-xl font-semibold'>Đội ngũ chuyên nghiệp</h3>
-												<p className='text-muted-foreground'>
-													Đội ngũ stylist giàu kinh nghiệm, luôn cập nhật xu hướng mới nhất.
-												</p>
-											</div>
-											<div className='space-y-4 rounded-lg border border-slate-200 p-4'>
-												<h3 className='text-xl font-semibold'>Không gian sang trọng</h3>
-												<p className='text-muted-foreground'>
-													Không gian thiết kế sang trọng, mang đến cảm giác gần gũi và phong cách.
-												</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</section>
 						</div>
-
 					</div>
 				</section>
 
-
+				{/* Introduction Section */}
+				<section className='py-16'>
+					<div className='container'>
+						<div className='mx-auto max-w-3xl space-y-6 text-center flex flex-col gap-3'>
+							<p className='text-lg text-muted-foreground border border-slate-200 p-4 rounded-md'>
+								Barber mang đến trải nghiệm cắt tóc đẳng cấp, kết hợp giữa kỹ thuật tinh tế, không gian
+								hiện đại và dịch vụ chăm sóc tận tâm.
+							</p>
+							<div className='grid gap-8 md:grid-cols-2 text-white'>
+								<div className='space-y-4 rounded-lg border border-slate-200 p-4'>
+									<h3 className='text-xl font-semibold'>Đội ngũ chuyên nghiệp</h3>
+									<p className='text-muted-foreground'>
+										Đội ngũ stylist giàu kinh nghiệm, luôn cập nhật xu hướng mới nhất.
+									</p>
+								</div>
+								<div className='space-y-4 rounded-lg border border-slate-200 p-4'>
+									<h3 className='text-xl font-semibold'>Không gian sang trọng</h3>
+									<p className='text-muted-foreground'>
+										Không gian thiết kế sang trọng, mang đến cảm giác gần gũi và phong cách.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
 
 				{/* Services Images */}
 				<section className='py-16'>

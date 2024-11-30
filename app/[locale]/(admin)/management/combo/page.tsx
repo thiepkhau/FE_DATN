@@ -105,7 +105,7 @@ const ComboManagement = () => {
 			queryClient.invalidateQueries({ queryKey: ['dataCombos'] });
 			Swal.fire({
 				title: 'Deleted!',
-				text: 'Shift deleted successfully.' ,
+				text: 'Shift deleted successfully.',
 				icon: 'success',
 				confirmButtonText: 'OK',
 			});

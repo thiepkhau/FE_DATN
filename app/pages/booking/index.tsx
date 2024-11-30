@@ -5,17 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { CalendarIcon, ChevronRight, Scissors, Upload } from 'lucide-react';
-import { format, addDays } from 'date-fns'; // Import addDays from date-fns
+import { addDays, format } from 'date-fns'; // Import addDays from date-fns
 import Image from 'next/image';
-import BackGroundRoot from '@/public/root/background-root.png';
-import Face from '@/public/root/face.png';
+// import BackGroundRoot from '@/public/root/background-root.png';
 import Link from 'next/link';
 import { createBook } from '@/app/apis/booking/createBook';
 import { useRouter } from 'next/navigation';
-import { ApiResponseServiceType } from '@/types/ServiceType.type';
 import { useQuery } from '@tanstack/react-query';
 import { getStaffShiftById } from '@/app/apis/staff-shift/getStaffShiftById';
 import { getBookings } from '@/app/apis/booking/getBooking';
+import Swal from 'sweetalert2';
+import { useAuth } from '@/context/AuthProvider';
 
 interface Image {
 	id: number;
@@ -67,7 +67,6 @@ interface BookingData {
 	selectedStylist?: Stylist;
 }
 
-//tạo khoảng thời gian
 const generateTimeSlots = (startTime: string, endTime: string, interval: number): string[] => {
 	const timeSlots: string[] = [];
 	const start = new Date(`1970-01-01T${startTime}:00`);
@@ -82,26 +81,24 @@ const generateTimeSlots = (startTime: string, endTime: string, interval: number)
 
 	return timeSlots;
 };
-//tạo tuần
-const getNextWeek = (date: Date) => {
-	const nextWeekDate = new Date(date);
-	nextWeekDate.setDate(date.getDate() + 7);
-	const startDate = new Date(nextWeekDate.getFullYear(), 0, 1);
-	const diff = nextWeekDate.getTime() - startDate.getTime();
+
+const getCurrentWeek = (date: Date) => {
+	const startDate = new Date(date.getFullYear(), 0, 1);
+	const diff = date.getTime() - startDate.getTime();
 	const oneDay = 1000 * 60 * 60 * 24;
 	const dayOfYear = Math.floor(diff / oneDay);
 	return Math.ceil((dayOfYear + 1) / 7);
 };
 
-//manager booking, cho phép user chọn date & time booking
 export default function BookingForm() {
 	const [date, setDate] = useState<Date | undefined>(addDays(new Date(), 1));
 	const [selectedTime, setSelectedTime] = useState<string | null>(null);
 	const [bookingData, setBookingData] = useState<BookingData | null>(null);
 	const currentDate = new Date();
 	const currentYear = currentDate.getFullYear();
-	const currentWeek = getNextWeek(currentDate);
+	const currentWeek = getCurrentWeek(currentDate);
 	const router = useRouter();
+	const { isAuthenticated } = useAuth();
 
 	const staff_id = bookingData?.selectedStylist?.id || 0;
 	const {
@@ -114,7 +111,9 @@ export default function BookingForm() {
 		enabled: !!staff_id,
 	});
 
-	//lấy data booking
+	const dataStaffShift = staffShiftByIdData?.payload ?? [];
+	console.log('dataStaffShift', dataStaffShift);
+
 	const {
 		data: bookingDatas,
 		isLoading: isLoadingBookings,
@@ -124,7 +123,6 @@ export default function BookingForm() {
 		queryFn: getBookings,
 	});
 
-	//save date khi load web không mất
 	const bookings = bookingDatas?.payload || [];
 
 	useEffect(() => {
@@ -165,7 +163,7 @@ export default function BookingForm() {
 		if (isCompletedBooking) return true; // If there's a completed booking, the slot is unavailable
 
 		// Check if the time falls within the staff's shift
-		return staffShiftByIdData.payload.some((shift: Shift) => {
+		return !staffShiftByIdData.payload.some((shift: Shift) => {
 			if (shift.date !== selectedDateString) return false;
 
 			const [shiftStartHours, shiftStartMinutes] = shift.startTime.split(':').map(Number);
@@ -184,8 +182,23 @@ export default function BookingForm() {
 	const timeSlots = generateTimeSlots('07:20', '16:20', 20);
 
 	const handleBooking = async () => {
+		if (!isAuthenticated) {
+			Swal.fire({
+				title: 'Please login first!',
+				text: 'You need to be logged in to book an appointment.',
+				icon: 'info',
+				confirmButtonText: 'OK',
+			});
+			return;
+		}
+
 		if (!bookingData || !date || !selectedTime) {
-			alert('Please select a date, time, and stylist.');
+			Swal.fire({
+				title: 'Warning!',
+				text: 'Please select a date, time, and stylist.',
+				icon: 'warning',
+				confirmButtonText: 'OK',
+			});
 			return;
 		}
 
@@ -217,20 +230,25 @@ export default function BookingForm() {
 			setBookingData(null);
 			router.push('/booking-success');
 		} catch (error) {
-			alert('An error occurred while booking. Please try again.');
+			Swal.fire({
+				title: 'Error!',
+				text: 'The time you selected may have already been booked, please choose another time.',
+				icon: 'error',
+				confirmButtonText: 'OK',
+			});
 		}
 	};
 
 	return (
 		<div className='!overflow-hidden bg-black h-full sec-com'>
 			<div className='relative pt-10'>
-				<Image
-					src={BackGroundRoot}
-					alt='Barber Shop Logo'
-					width={1820}
-					height={1200}
-					className='absolute inset-0 w-full object-cover h-screen'
-				/>
+				{/*<Image*/}
+				{/*	src={BackGroundRoot}*/}
+				{/*	alt='Barber Shop Logo'*/}
+				{/*	width={1820}*/}
+				{/*	height={1200}*/}
+				{/*	className='absolute inset-0 w-full object-cover h-screen'*/}
+				{/*/>*/}
 				<div className='absolute inset-0 bg-black bg-opacity-50 h-screen'></div>
 				<div className='w-full max-w-xl mx-auto p-4 sec-com relative z-10'>
 					<div className='bg-white/10 backdrop-blur-sm rounded-3xl p-6 space-y-6'>
@@ -291,7 +309,7 @@ export default function BookingForm() {
 							<div className='flex gap-2'>
 								<Link href='/stylist'>
 									<Button variant='outline' className='flex-1 bg-white text-black'>
-										<Image src={Face} alt='face' className='mr-2 h-7 w-6' />
+										{/*<Image src={Face} alt='face' className='mr-2 h-7 w-6' />*/}
 										Choose stylist
 										<ChevronRight className='ml-auto h-4 w-4' />
 									</Button>
