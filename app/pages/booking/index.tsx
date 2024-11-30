@@ -7,7 +7,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { CalendarIcon, ChevronRight, Scissors, Upload } from 'lucide-react';
 import { addDays, format } from 'date-fns'; // Import addDays from date-fns
 import Image from 'next/image';
-// import BackGroundRoot from '@/public/root/background-root.png';
+import BackGroundRoot from '@/public/root/background-root.png';
+import Face from '@/public/root/face.png';
 import Link from 'next/link';
 import { createBook } from '@/app/apis/booking/createBook';
 import { useRouter } from 'next/navigation';
@@ -242,13 +243,13 @@ export default function BookingForm() {
 	return (
 		<div className='!overflow-hidden bg-black h-full sec-com'>
 			<div className='relative pt-10'>
-				{/*<Image*/}
-				{/*	src={BackGroundRoot}*/}
-				{/*	alt='Barber Shop Logo'*/}
-				{/*	width={1820}*/}
-				{/*	height={1200}*/}
-				{/*	className='absolute inset-0 w-full object-cover h-screen'*/}
-				{/*/>*/}
+				<Image
+					src={BackGroundRoot}
+					alt='Barber Shop Logo'
+					width={1820}
+					height={1200}
+					className='absolute inset-0 w-full object-cover h-screen'
+				/>
 				<div className='absolute inset-0 bg-black bg-opacity-50 h-screen'></div>
 				<div className='w-full max-w-xl mx-auto p-4 sec-com relative z-10'>
 					<div className='bg-white/10 backdrop-blur-sm rounded-3xl p-6 space-y-6'>
@@ -309,7 +310,7 @@ export default function BookingForm() {
 							<div className='flex gap-2'>
 								<Link href='/stylist'>
 									<Button variant='outline' className='flex-1 bg-white text-black'>
-										{/*<Image src={Face} alt='face' className='mr-2 h-7 w-6' />*/}
+										<Image src={Face} alt='face' className='mr-2 h-7 w-6' />
 										Choose stylist
 										<ChevronRight className='ml-auto h-4 w-4' />
 									</Button>
