@@ -85,7 +85,6 @@ const ComboManagement = () => {
 	const serviceOptions = services.map((service) => ({
 		value: service.id,
 		label: service.name,
-
 	}));
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +105,7 @@ const ComboManagement = () => {
 			queryClient.invalidateQueries({ queryKey: ['dataCombos'] });
 			Swal.fire({
 				title: 'Deleted!',
-				text: 'Shift deleted successfully.',
+				text: 'Shift deleted successfully.' ,
 				icon: 'success',
 				confirmButtonText: 'OK',
 			});
