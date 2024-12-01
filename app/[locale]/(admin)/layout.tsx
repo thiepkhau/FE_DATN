@@ -4,6 +4,8 @@ import SideBar from '@/app/[locale]/(admin)/components/sidebar';
 import '@/app/globals.css';
 import Provider from '@/utils/Provider';
 import { AuthProvider } from '@/context/AuthProvider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const poppins = Poppins({
 	weight: ['400', '500', '600', '700', '800', '900'],
@@ -16,21 +18,22 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-	children,
-}: Readonly<{
+									   children,
+								   }: Readonly<{
 	children: React.ReactNode;
 }>) {
 	return (
 		<html lang='en'>
-			<body className={poppins.className}>
-				<Provider>
-					<AuthProvider>
-						<SideBar>
-							<div className='bg-gray-900 text-gray-200'>{children}</div>
-						</SideBar>
-					</AuthProvider>
-				</Provider>
-			</body>
+		<body className={poppins.className}>
+		<Provider>
+			<AuthProvider>
+				<SideBar>
+					<div className='bg-gray-900 text-gray-200'>{children}</div>
+				</SideBar>
+			</AuthProvider>
+		</Provider>
+		<ToastContainer />
+		</body>
 		</html>
 	);
 }
