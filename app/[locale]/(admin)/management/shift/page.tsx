@@ -8,11 +8,11 @@ import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-rea
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import PageContainer from '@/app/components/page-container';
-import { createShift } from '@/app/apis/shifft/createShift';
+import { createShift } from '@/app/api/shifft/createShift';
 import Swal from 'sweetalert2';
-import { getShift } from '@/app/apis/shifft/getShift';
-import { deleteShift } from '@/app/apis/shifft/deleteShift';
-import { updateShift } from '@/app/apis/shifft/updateShift';
+import { getShift } from '@/app/api/shifft/getShift';
+import { deleteShift } from '@/app/api/shifft/deleteShift';
+import { updateShift } from '@/app/api/shifft/updateShift';
 
 const Shift = () => {
 	const queryClient = useQueryClient();
