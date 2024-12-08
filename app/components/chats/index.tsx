@@ -6,6 +6,7 @@ import Mess from '@/public/root/btn-mess.png';
 import What from '@/public/root/btn-what.png';
 import Zalo from '@/public/root/btn-zalo.png';
 import Image from 'next/image';
+import { useChat } from 'ai/react';
 
 export default function Chats() {
 	return (
