@@ -18,22 +18,22 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-									   children,
-								   }: Readonly<{
+	children,
+}: Readonly<{
 	children: React.ReactNode;
 }>) {
 	return (
 		<html lang='en'>
-		<body className={poppins.className}>
-		<Provider>
-			<AuthProvider>
-				<SideBar>
-					<div className='bg-gray-900 text-gray-200'>{children}</div>
-				</SideBar>
-			</AuthProvider>
-		</Provider>
-		<ToastContainer />
-		</body>
+			<body className={poppins.className}>
+				<Provider>
+					<AuthProvider>
+						<SideBar>
+							<div className='bg-gray-900 text-gray-200'>{children}</div>
+						</SideBar>
+					</AuthProvider>
+				</Provider>
+				<ToastContainer />
+			</body>
 		</html>
 	);
 }
