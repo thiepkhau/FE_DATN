@@ -37,7 +37,7 @@ type Booking = {
 	date: string;
 	status: string;
 	bookingDetails: Array<{
-		bookingDetailId: number;
+		id: number;
 		service: { name: string; price: number };
 	}>;
 	startTime: string;
@@ -78,9 +78,9 @@ export default function BookingCalender() {
 			staffComment,
 			staffRating,
 			reviewDetails: selectedBooking.bookingDetails.map((detail) => ({
-				comment: reviewDetails[detail.bookingDetailId]?.comment || '',
-				rating: reviewDetails[detail.bookingDetailId]?.rating || 0,
-				bookingDetailId: detail.bookingDetailId,
+				comment: reviewDetails[detail.id]?.comment || '',
+				rating: reviewDetails[detail.id]?.rating || 0,
+				bookingDetailId: detail.id || undefined,
 			})),
 		};
 
@@ -131,7 +131,7 @@ export default function BookingCalender() {
 	const goToPreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
 
 	return (
-		<div className='bg-gray-900 pt-5 md:pt-10 lg:pt-20'>
+		<div className='bg-gray-900 h-dvh pt-5 md:pt-10 lg:pt-20'>
 			<div className='sec-com'>
 				<div className='container-lg mx-auto space-y-6'>
 					<h1 className='text-2xl font-bold text-center text-white mb-8'>
@@ -212,35 +212,6 @@ export default function BookingCalender() {
 												</DropdownMenuTrigger>
 												<DropdownMenuContent align='end' className='w-32'>
 													<DropdownMenuItem
-														onClick={() =>
-															handleEditClick({
-																...booking,
-																name: booking.staff.name,
-																phone: booking.staff.phone,
-																service: booking.bookingDetails
-																	.map((detail) => detail.service.name)
-																	.join(', '),
-																stylist: booking.staff.name,
-																date: new Date(booking.startTime).toLocaleDateString(
-																	'vi-VN'
-																),
-																bookingDetails: booking.bookingDetails.map(
-																	(detail) => ({
-																		bookingDetailId: detail.bookingDetailId,
-																		service: {
-																			name: detail.service.name,
-																			price: detail.service.price,
-																		},
-																	})
-																),
-															})
-														}
-														className='text-green-600 hover:text-green-700'
-													>
-														<Pencil className='w-4 h-4 mr-2' />
-														Edit
-													</DropdownMenuItem>
-													<DropdownMenuItem
 														onClick={() => {
 															if (booking.status === 'COMPLETED') {
 																setSelectedBooking({
@@ -256,7 +227,7 @@ export default function BookingCalender() {
 																	).toLocaleDateString('vi-VN'),
 																	bookingDetails: booking.bookingDetails.map(
 																		(detail) => ({
-																			bookingDetailId: detail.bookingDetailId,
+																			id: detail.id,
 																			service: {
 																				name: detail.service.name,
 																				price: detail.service.price,
@@ -277,10 +248,6 @@ export default function BookingCalender() {
 													>
 														<Star className='w-4 h-4 mr-2' />
 														Review
-													</DropdownMenuItem>
-													<DropdownMenuItem className='text-red-600 hover:text-red-700'>
-														<Trash2 className='w-4 h-4 mr-2' />
-														Delete
 													</DropdownMenuItem>
 												</DropdownMenuContent>
 											</DropdownMenu>
@@ -341,29 +308,30 @@ export default function BookingCalender() {
 							/>
 						</Label>
 						{selectedBooking?.bookingDetails?.map((detail) => (
-							<div key={detail.bookingDetailId}>
+							<div key={detail.id}>
 								<Label>Review for Service</Label>
 								<Input
-									value={reviewDetails[detail.bookingDetailId]?.comment || ''}
+									value={reviewDetails[detail.id]?.comment || ''}
 									onChange={(e) =>
 										setReviewDetails((prev) => ({
 											...prev,
-											[detail.bookingDetailId]: {
-												...prev[detail.bookingDetailId],
+											[detail.id]: {
+												...prev[detail.id],
 												comment: e.target.value,
 											},
 										}))
 									}
 									placeholder='Enter your review'
 								/>
+								<label>Service Rating</label>
 								<Input
 									type='number'
-									value={reviewDetails[detail.bookingDetailId]?.rating || 0}
+									value={reviewDetails[detail.id]?.rating || 0}
 									onChange={(e) =>
 										setReviewDetails((prev) => ({
 											...prev,
-											[detail.bookingDetailId]: {
-												...prev[detail.bookingDetailId],
+											[detail.id]: {
+												...prev[detail.id],
 												rating: Number(e.target.value),
 											},
 										}))
