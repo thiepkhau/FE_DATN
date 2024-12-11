@@ -5,7 +5,7 @@ export const getVouchers = async (): Promise<ApiResponseVoucher> => {
 		const response = await api.get<ApiResponseVoucher>('/voucher');
 		return response.data;
 	} catch (error: any) {
-		console.error('Error fetching combos details:', error.response?.data || error.message);
+		console.error('Error fetching voucher details:', error.response?.data || error.message);
 		throw error;
 	}
 };
