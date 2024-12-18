@@ -22,7 +22,7 @@ export default function Address() {
 					</div>
 					<p className='text-black text-sm md:text-base lg:text-lg px-4 text-center font-bold'>
 						<br></br>
-						17 An Hải 5, An Hải Bắc, Sơn Trà, Đà Nẵng
+						Toà nhà Clubhouse, Khu K5-5, Khu đô thị Công nghệ FPT, Phường Hoà Hải, Quận Ngũ Hành Sơn, Thành phố Đà Nẵng.
 					</p>
 
 
@@ -30,26 +30,28 @@ export default function Address() {
 
 				{/* Social Links */}
 				<div className='flex justify-center gap-6 md:gap-8 mb-8 md:mb-12'>
-					<Link href='#' className='text-black hover:text-[#F5A524] transition-colors'>
+					<Link href='https://instagram.com' className='text-black hover:text-[#F5A524] transition-colors'>
 						<Instagram className='w-5 h-5 md:w-6 md:h-6' />
 						<span className='sr-only'>Instagram</span>
 					</Link>
-					<Link href='#' className='text-black hover:text-[#F5A524] transition-colors'>
+					<Link href='https://facebook.com' className='text-black hover:text-[#F5A524] transition-colors'>
 						<Facebook className='w-5 h-5 md:w-6 md:h-6' />
 						<span className='sr-only'>Facebook</span>
 					</Link>
-					<Link href='#' className='text-black hover:text-[#F5A524] transition-colors'>
-						<Twitter className='w-5 h-5 md:w-6 md:h-6' />
-						<span className='sr-only'>Twitter</span>
-					</Link>
+					{/*<Link href='#' className='text-black hover:text-[#F5A524] transition-colors'>*/}
+					{/*	<Twitter className='w-5 h-5 md:w-6 md:h-6' />*/}
+					{/*	<span className='sr-only'>Twitter</span>*/}
+					{/*</Link>*/}
 				</div>
 
 				{/* Logo */}
-				<div className='flex justify-center'>
-					<div className='relative w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32'>
-						<Image src={Logo} alt='Barber Shop Logo' fill className='object-contain' />
+				<Link href='/'>
+					<div className='flex justify-center'>
+						<div className='relative w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32'>
+							<Image src={Logo} alt='Barber Shop Logo' fill className='object-contain'/>
+						</div>
 					</div>
-				</div>
+				</Link>
 			</div>
 		</div>
 	);
