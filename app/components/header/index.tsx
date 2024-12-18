@@ -65,7 +65,8 @@ export default function Header() {
 
 			// Example: Save the new token to localStorage
 			if (data?.payload) {
-				localStorage.setItem('dataLogin', data.payload);
+				setDataDecode(jwtDecode(data?.payload));
+				localStorage.setItem('accessToken', data?.payload);
 				console.log('Token exchanged successfully:', data.payload);
 			}
 		} catch (error) {
@@ -92,15 +93,6 @@ export default function Header() {
 	}, [router]);
 
 	const dataGoogle: any = localStorage?.getItem('dataLogin');
-
-	if (dataGoogle) {
-		const decoded: any = jwtDecode(dataGoogle);
-		setDataDecode(decoded);
-	} else {
-		console.error("No data in localStorage for 'dataLogin'.");
-	}
-
-	// const decoded: any = jwtDecode(dataGoogle);
 
 	const {
 		data: dataProfile,
@@ -281,13 +273,13 @@ export default function Header() {
 													alt={dataProfile.avatar.name}
 												/>
 											)}
-											{/* {dataDecode && (
+											{dataDecode && (
 												<AvatarImage src={dataDecode?.avatar} alt={dataDecode.name} />
-											)} */}
+											)}
 											{dataProfile && (
 												<AvatarFallback>{dataProfile.avatar.thumbUrl}</AvatarFallback>
 											)}
-											{/* {dataDecode && <AvatarFallback>{dataDecode?.name}</AvatarFallback>} */}
+											{dataDecode && <AvatarFallback>{dataDecode?.name}</AvatarFallback>}
 										</Avatar>
 										{dataProfile && <span className='text-xs'>{dataProfile.name}</span>}
 										{dataDecode && <span className='text-xs'>{dataDecode?.name}</span>}
@@ -297,8 +289,8 @@ export default function Header() {
 													dataProfile?.rank === 'BRONZE'
 														? 'bg-yellow-400/15 text-yellow-600'
 														: dataProfile.rank === 'DIAMOND'
-															? 'bg-blue-400/15 text-blue-600'
-															: 'bg-green-400/15 text-green-600'
+														? 'bg-blue-400/15 text-blue-600'
+														: 'bg-green-400/15 text-green-600'
 												}`}
 											>
 												{dataProfile?.rank}
