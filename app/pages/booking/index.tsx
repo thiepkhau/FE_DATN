@@ -363,7 +363,8 @@ export default function BookingForm() {
 								<Button className='flex items-center justify-between w-full bg-white hover:bg-gray-300'>
 									<div className='flex items-center'>
 										<Scissors className='mr-2 h-4 w-4 text-gray-900' />
-										<span className='text-gray-900'>See all attractive services..</span>
+										<span className='text-gray-900'>
+											{t('See all attractive services..')}</span>
 									</div>
 									<ChevronRight className='ml-auto h-4 w-4 text-gray-900' />
 								</Button>
@@ -426,14 +427,14 @@ export default function BookingForm() {
 								<Link href='/stylist'>
 									<Button variant='outline' className='flex-1 bg-white text-black'>
 										<Image src={Face} alt='face' className='mr-2 h-7 w-6' />
-										Choose stylist
+										{t('Choose stylist')}
 										<ChevronRight className='ml-auto h-4 w-4' />
 									</Button>
 								</Link>
-								<Button variant='outline' className='flex-1 bg-white text-black'>
-									<Upload className='mr-2 h-4 w-4' />
-									{t('uploadHairstyle')}
-								</Button>
+								{/*<Button variant='outline' className='flex-1 bg-white text-black'>*/}
+								{/*	<Upload className='mr-2 h-4 w-4' />*/}
+								{/*	{t('uploadHairstyle')}*/}
+								{/*</Button>*/}
 							</div>
 							{bookingData?.selectedStylist && (
 								<div className='bg-white/20 rounded-lg p-4 space-y-2'>
