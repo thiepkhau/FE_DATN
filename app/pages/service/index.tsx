@@ -29,9 +29,10 @@ export default function Service() {
 	const [selectedTab, setSelectedTab] = useState<'service' | 'combo'>('service');
 	const [selectedServices, setSelectedServices] = useState<Set<number>>(new Set());
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	const [selectedOffers, setSelectedOffers] = useState<{ id: number; name: string; minPrice: number }[]>([]);
+	const [selectedOffers, setSelectedOffers] = useState<{ id: number; name: string; maxDiscount: number }[]>([]);
 	const [visibleCount, setVisibleCount] = useState(4);
 	const [totalPrice, setTotalPrice] = useState(0);
+	const [totalDiscount, setTotalDiscount] = useState(0);
 	const [selectedCombos, setSelectedCombos] = useState<Set<number>>(new Set());
 	const router = useRouter();
 	const { t } = useTranslation('common');
@@ -94,16 +95,19 @@ export default function Service() {
 		setTotalPrice(newTotal);
 	};
 
-	const handleApplyOffers = (offers: { id: number; name: string; minPrice: number }[]) => {
+	const handleApplyOffers = (offers: { id: number; name: string; maxDiscount: number }[]) => {
 		setIsDialogOpen(false);
 		setSelectedOffers(offers);
 
 		let discount = 0;
+		let remainingTotal = totalPrice;
 
-		// Calculate the discount based on minPrice
+		// Calculate the total discount based on maxDiscount and remaining total price
 		offers.forEach((offer) => {
-			if (offer.minPrice && totalPrice >= offer.minPrice) {
-				discount += offer.minPrice;
+			if (offer.maxDiscount) {
+				const applicableDiscount = Math.min(offer.maxDiscount, remainingTotal);
+				discount += applicableDiscount;
+				remainingTotal -= applicableDiscount; // Avoid over-discount
 			}
 		});
 
@@ -111,6 +115,10 @@ export default function Service() {
 		const newTotalPrice = Math.max(0, totalPrice - discount);
 		setTotalPrice(newTotalPrice);
 
+		// Save total discount for storage
+		const totalDiscount = discount;
+
+		// Show success toast
 		toast.success('Offers have been saved successfully!', {
 			style: { color: '#4CAF50' },
 			position: 'top-right',
@@ -122,6 +130,9 @@ export default function Service() {
 				},
 			},
 		});
+
+		// Store the total discount value in a state (optional, used in handleFinished)
+		setTotalDiscount(totalDiscount);
 	};
 
 	const handleFinished = () => {
@@ -155,18 +166,31 @@ export default function Service() {
 		const selectedOffersData = selectedOffers.map((offer) => ({
 			id: offer.id,
 			name: offer.name,
-			minPrice: offer.minPrice,
+			maxDiscount: offer.maxDiscount,
 		}));
+
+		// Calculate total discount
+		const totalDiscount = selectedOffers.reduce((sum, offer) => sum + (offer.maxDiscount || 0), 0);
+
 		// Create a detailed object with all selected services, combos, and total payment
 		const bookingData = {
 			selectedServices: selectedServicesData,
 			selectedCombos: selectedCombosData,
 			selectedOffers: selectedOffersData,
 			totalPayment: totalPrice,
+			totalDiscount, // Add total discount here
 		};
 
-		// Save the entire bookingData object in localStorage
+		// Save the bookingData object in localStorage
 		localStorage.setItem('bookingData', JSON.stringify(bookingData));
+
+		// Save the voucher data separately
+		const voucherData = {
+			selectedOffers: selectedOffersData,
+			totalDiscount, // Include total discount in voucher data
+		};
+
+		localStorage.setItem('voucherData', JSON.stringify(voucherData));
 
 		// Redirect to booking page
 		router.push('/book');
@@ -383,7 +407,7 @@ export default function Service() {
 										size='lg'
 										className='bg-blue-600 hover:bg-blue-700 text-white'
 										onClick={handleFinished}
-										disabled={selectedServices.size === 0}
+										disabled={selectedServices.size === 0 && selectedCombos.size === 0}
 									>
 										Finished
 									</Button>
