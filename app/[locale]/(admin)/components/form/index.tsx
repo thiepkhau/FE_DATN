@@ -10,7 +10,7 @@ import { Plus } from 'lucide-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import { createService } from '@/app/api/service/createService';
-import { updateService } from '@/app/api/service/updateService'; // Import updateService API
+import { updateService } from '@/app/api/service/updateService';
 import { ApiResponseServiceType } from '@/types/ServiceType.type';
 import { getServiceTypes } from '@/app/api/service/getServiceType';
 
@@ -23,8 +23,7 @@ interface EditStylistFormProps {
 export default function EditStylistForm({ stylist, mode, onClose }: EditStylistFormProps) {
 	const queryClient = useQueryClient();
 	const [serviceTypeId, setServiceTypeId] = useState<string>(stylist?.serviceTypeId || '');
-	const [imagesForRemoval, setImagesForRemoval] = useState<string[]>([]); // Track images to remove
-
+	const [removeImageId, setRemoveImageId] = useState<number | null>(null);
 	// Mutation for creating a new service
 	const { mutate: mutateCreateService } = useMutation({
 		mutationFn: async (serviceData: FormData) => {
@@ -108,34 +107,41 @@ export default function EditStylistForm({ stylist, mode, onClose }: EditStylistF
 		formData.append('price', (e.target as any).price.value);
 		formData.append('estimateTime', (e.target as any).estimateTime.value);
 
-		// Handle new images
+		// Handle images for creation and update separately
 		const images = (e.target as HTMLFormElement).images.files;
-		if (images.length > 0) {
+		if (mode === 'add' && images.length > 0) {
+			// For creation, append images as 'images'
 			Array.from(images).forEach((file) => {
 				if (file instanceof File) {
-					formData.append('new_images', file);
+					formData.append('images', file);
 				}
 			});
 		}
 
-		// Handle removing images
-		if (imagesForRemoval.length > 0) {
-			imagesForRemoval.forEach((imageUrl) => {
-				formData.append('remove_images', imageUrl); // Append each image URL separately
-			});
-		}
-
-		// Trigger mutation based on the mode (add or edit)
 		if (mode === 'edit') {
-			formData.append('id', stylist.id); // Include the service ID for update
+			// For update, append images as 'new_images' if new files are selected
+			const newImages = (e.target as HTMLFormElement).images.files;
+			if (newImages.length > 0) {
+				Array.from(newImages).forEach((file) => {
+					if (file instanceof File) {
+						formData.append('new_images', file);
+					}
+				});
+			}
+
+			if (removeImageId !== null) {
+				formData.append('remove_images', String(removeImageId));
+			}
+
+			formData.append('id', stylist.id);
 			mutateUpdateService(formData);
 		} else {
 			mutateCreateService(formData);
 		}
 	};
 
-	const handleImageRemove = (imageUrl: string) => {
-		setImagesForRemoval((prev) => [...prev, imageUrl]);
+	const handleImageRemove = (imageId: number) => {
+		setRemoveImageId(imageId);
 	};
 
 	return (
@@ -151,17 +157,19 @@ export default function EditStylistForm({ stylist, mode, onClose }: EditStylistF
 						<div className='space-y-2'>
 							{mode === 'edit' && stylist?.images?.length > 0 && (
 								<div className='flex flex-wrap gap-4'>
-									{stylist.images.map((image: any) => (
-										<div key={image.url} className='relative'>
-											<Image src={image.url} alt={stylist.name} width={100} height={100} />
-											<Button
-												className='absolute top-0 right-0 bg-red-500 text-white'
-												onClick={() => handleImageRemove(image.url)}
-											>
-												Remove
-											</Button>
-										</div>
-									))}
+									{stylist?.images
+										?.filter((image: any) => image.id !== removeImageId)
+										?.map((image: any) => (
+											<div key={image.id} className='relative'>
+												<Image src={image.url} alt={stylist.name} width={100} height={100} />
+												<Button
+													className='absolute top-0 right-0 bg-red-500 text-white'
+													onClick={() => handleImageRemove(image.id)}
+												>
+													Remove
+												</Button>
+											</div>
+										))}
 								</div>
 							)}
 						</div>
@@ -236,7 +244,7 @@ export default function EditStylistForm({ stylist, mode, onClose }: EditStylistF
 				</CardContent>
 
 				<div className='space-x-3'>
-					<Button type='submit' variant='outline'>
+					<Button type='submit' variant='ghost'>
 						{mode === 'edit' ? 'Update Service' : 'Create Service'}
 					</Button>
 					<Button variant='ghost' onClick={onClose}>

@@ -41,6 +41,7 @@ import {
 	Ticket,
 	Receipt,
 	LayoutDashboard,
+	Home,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -227,21 +228,13 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 										</div>
 									</DropdownMenuLabel>
 									<DropdownMenuSeparator />
-									<DropdownMenuGroup>
-										<DropdownMenuItem>
-											<BadgeCheck />
-											Account
-										</DropdownMenuItem>
-										<DropdownMenuItem>
-											<CreditCard />
-											Billing
-										</DropdownMenuItem>
-										<DropdownMenuItem>
-											<Bell />
-											Notifications
-										</DropdownMenuItem>
-									</DropdownMenuGroup>
 									<DropdownMenuSeparator />
+									<DropdownMenuItem>
+										<Link href='/' className='flex items-center gap-2'>
+											<Home size={16} />
+											Home Page
+										</Link>
+									</DropdownMenuItem>
 									<DropdownMenuItem onClick={handleLogout}>
 										<LogOut />
 										Log out
