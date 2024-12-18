@@ -211,7 +211,7 @@ export default function Service() {
 					<div className='relative p-4 space-y-4 z-10 max-w-xl mx-auto'>
 						<div className='flex items-center justify-between gap-4 text-white'>
 							<ArrowLeft className='w-6 h-6' />
-							<span>Select service(s = 1000d)</span>
+							<span>{t('Select service(s = 1000d)')}</span>
 							<span></span>
 						</div>
 						<Input type='search' placeholder={t('searchService')} className='bg-white' />
@@ -224,13 +224,13 @@ export default function Service() {
 						className={selectedTab === 'service' ? 'primary' : 'ghost'}
 						onClick={() => setSelectedTab('service')}
 					>
-						Services
+						{t('Services')}
 					</Button>
 					<Button
 						className={selectedTab === 'service' ? 'primary' : 'ghost'}
 						onClick={() => setSelectedTab('combo')}
 					>
-						Combos
+						{t('Combos')}
 					</Button>
 				</div>
 
@@ -386,7 +386,7 @@ export default function Service() {
 										<div className='text-lg'>
 											{selectedServices.size} <span>{t('noServicesSelected')}</span>
 										</div>
-										<div className='text-lg'>{selectedCombos.size} combos selected</div>
+										<div className='text-lg'>{selectedCombos.size} {t('combos selected')}</div>
 										<div className='text-xl flex items-center gap-2'>
 											{t('totalPayment')}
 											<span className='text-yellow-500 text-2xl font-semibold'>
@@ -409,7 +409,7 @@ export default function Service() {
 										onClick={handleFinished}
 										disabled={selectedServices.size === 0 && selectedCombos.size === 0}
 									>
-										Finished
+										{t('Finished')}
 									</Button>
 								</div>
 							</div>
