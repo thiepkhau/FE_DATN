@@ -36,6 +36,7 @@ import { getLogOut } from '@/app/api/getLogout';
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getNotification } from '@/app/api/notification/getNotification';
+import { jwtDecode } from 'jwt-decode';
 
 export default function Header() {
 	const { t, i18n } = useTranslation('common');
@@ -43,6 +44,53 @@ export default function Header() {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [notificationsOpen, setNotificationsOpen] = useState(false);
 	const router = useRouter();
+	const [tokenExchange, setTokenExchange] = useState<string | null>(null);
+	const dataGoogle: any = localStorage.getItem('dataLogin');
+	const decoded: any = jwtDecode(dataGoogle);
+
+	console.log('decoded', decoded);
+
+	const exchangeToken = async (token: string) => {
+		try {
+			const response = await fetch('https://52.187.14.110/api/auth/token-exchange', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ code: token }),
+			});
+
+			if (!response.ok) {
+				throw new Error('Token exchange failed');
+			}
+
+			const data = await response.json();
+
+			// Example: Save the new token to localStorage
+			if (data?.payload) {
+				localStorage.setItem('dataLogin', data.payload);
+				console.log('Token exchanged successfully:', data.payload);
+			}
+		} catch (error) {
+			console.error('Error during token exchange:', error);
+		}
+	};
+
+	useEffect(() => {
+		const currentUrl = window.location.href;
+		const urlParams = new URLSearchParams(new URL(currentUrl).search);
+		const token = urlParams.get('token_exchange');
+
+		if (token) {
+			setTokenExchange(token);
+			localStorage.setItem('token_exchange', token);
+
+			// Call the token exchange API
+			exchangeToken(token);
+
+			// Clean up the URL (remove query params)
+			const cleanedUrl = currentUrl.split('?')[0];
+			router.replace(cleanedUrl);
+		}
+	}, [router]);
 
 	const {
 		data: dataProfile,
@@ -197,7 +245,7 @@ export default function Header() {
 														</h3>
 														<p className='text-xs text-gray-400'>{notif.message}</p>
 														<span className='text-xs text-gray-500'>
-															{new Date(notif.timestamp).toLocaleString()}
+															{new Date(notif.createdAt).toLocaleString()}
 														</span>
 													</div>
 												</div>
@@ -212,18 +260,40 @@ export default function Header() {
 							</SheetContent>
 						</Sheet>
 
-						{dataProfile ? (
+						{dataProfile || decoded ? (
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<div className='flex items-center gap-2 cursor-pointer'>
 										<Avatar className='size-7'>
-											<AvatarImage
-												src={dataProfile.avatar.thumbUrl}
-												alt={dataProfile.avatar.name}
-											/>
-											<AvatarFallback>{dataProfile.avatar.thumbUrl}</AvatarFallback>
+											{dataProfile && (
+												<AvatarImage
+													src={dataProfile.avatar.thumbUrl}
+													alt={dataProfile.avatar.name}
+												/>
+											)}
+											{decoded && <AvatarImage src={decoded.avatar} alt={decoded.name} />}
+											{dataProfile && (
+												<AvatarFallback>{dataProfile.avatar.thumbUrl}</AvatarFallback>
+											)}
+											{decoded && <AvatarFallback>{decoded.avatar}</AvatarFallback>}
 										</Avatar>
-										<span className='text-xs'>{dataProfile.name}</span>
+										{dataProfile && <span className='text-xs'>{dataProfile.name}</span>}
+										{decoded && <span className='text-xs'>{decoded.name}</span>}
+										{dataProfile?.rank ? (
+											<span
+												className={`px-2 py-1 bg-slate-200 rounded-md ${
+													dataProfile?.rank === 'BRONZE'
+														? 'bg-yellow-400/15 text-yellow-600'
+														: dataProfile.rank === 'DIAMOND'
+															? 'bg-blue-400/15 text-blue-600'
+															: 'bg-green-400/15 text-green-600'
+												}`}
+											>
+												{dataProfile?.rank}
+											</span>
+										) : (
+											<span className='text-xs'>Not rank</span>
+										)}
 									</div>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent className='w-56 bg-black text-white border border-gray-800'>
@@ -235,12 +305,12 @@ export default function Header() {
 											</Link>
 										</DropdownMenuItem>
 									)}
-									<DropdownMenuItem className='hover:bg-gray-800 cursor-pointer'>
+									{/* <DropdownMenuItem className='hover:bg-gray-800 cursor-pointer'>
 										<Link href='/bill' className='flex items-center gap-1'>
 											<Scissors className='mr-2 h-4 w-4' />
 											<span>{t('historyHaircut')}</span>
 										</Link>
-									</DropdownMenuItem>
+									</DropdownMenuItem> */}
 									<DropdownMenuItem className='hover:bg-gray-800 cursor-pointer'>
 										<Link href='/offer' className='flex items-center gap-1'>
 											<Gift className='mr-2 h-4 w-4' />
