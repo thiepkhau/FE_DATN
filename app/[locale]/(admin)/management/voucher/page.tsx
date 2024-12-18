@@ -11,18 +11,22 @@ import { getVouchers } from '@/app/api/voucher/getVoucher';
 import { createVoucher } from '@/app/api/voucher/createVoucher';
 import { deleteVoucher } from '@/app/api/voucher/deleteVoucher';
 import { updateVoucher } from '@/app/api/voucher/updateVoucher';
+import { toast } from 'react-toastify';
 
 interface Voucher {
 	id: number;
 	code: string;
 	maxUses: number;
 	discount: number;
-	maxDiscount: number;
 	startDate: string;
 	endDate: string;
-	minPrice: number;
+	maxDiscount: number;
 	disabled: boolean;
+	minPrice: number;
+	forRank: string;
 }
+
+const rankOptions = ['BRONZE', 'SILVER', 'GOLD', 'DIAMOND'];
 
 const VoucherManagement = () => {
 	const queryClient = useQueryClient();
@@ -36,8 +40,9 @@ const VoucherManagement = () => {
 		maxDiscount: 0,
 		startDate: '',
 		endDate: '',
-		minPrice: 0,
 		disabled: false,
+		minPrice: 0,
+		forRank: 'BRONZE',
 	});
 
 	const [currentPage, setCurrentPage] = useState(1);
@@ -104,15 +109,12 @@ const VoucherManagement = () => {
 				icon: 'success',
 				confirmButtonText: 'OK',
 			});
-			setIsDialogOpen(false); // Close dialog after successful create
-			resetVoucherData(); // Reset the form
+			setIsDialogOpen(false);
+			resetVoucherData();
 		},
 		onError: () => {
-			Swal.fire({
-				title: 'Error!',
-				text: 'There was an error creating the voucher.',
-				icon: 'error',
-				confirmButtonText: 'OK',
+			toast.error('There was an error creating the voucher.', {
+				autoClose: 5000,
 			});
 		},
 	});
@@ -134,11 +136,8 @@ const VoucherManagement = () => {
 			resetVoucherData(); // Reset the form
 		},
 		onError: () => {
-			Swal.fire({
-				title: 'Error!',
-				text: 'There was an error updating the voucher.',
-				icon: 'error',
-				confirmButtonText: 'OK',
+			toast.error('There was an error updating the voucher.', {
+				autoClose: 5000,
 			});
 		},
 	});
@@ -155,11 +154,12 @@ const VoucherManagement = () => {
 			endDate: '',
 			minPrice: 0,
 			disabled: false,
+			forRank: 'BRONZE',
 		});
 	};
 
 	// Handle form input changes
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleInputChange = (e: any) => {
 		const { name, value, type, checked } = e.target;
 
 		let newValue = value;
@@ -167,52 +167,67 @@ const VoucherManagement = () => {
 			newValue = Math.max(0, Number(value)).toString();
 		}
 
-		// Validate Discount and Max Discount constraints
-		if (name === 'discount' || name === 'maxDiscount') {
-			// Ensure Discount and Max Discount are not smaller than 0
-			if (Number(newValue) < 0) {
-				newValue = '0';
-			}
-
-			// Ensure Max Discount is not smaller than Discount
-			if (name === 'maxDiscount' && Number(newValue) < Number(voucherData.discount)) {
-				newValue = voucherData.discount.toString(); // Set maxDiscount to the value of discount if it's smaller
-			}
+		// Kiểm tra ngày hợp lệ nhưng không chặn nhập liệu
+		if (name === 'startDate' && new Date(newValue) > new Date(voucherData.endDate)) {
+			Swal.fire({
+				title: 'Error!',
+				text: 'Start date cannot be later than the end date.',
+				icon: 'error',
+				confirmButtonText: 'OK',
+			});
 		}
 
-		// Ensure Max Discount is not more than 100
-		if (name === 'discount' && Number(newValue) > 100) {
-			newValue = '100'; // Limit discount to 100%
-		}
-
-		if (name === 'maxDiscount' && Number(newValue) > 100) {
-			newValue = '100'; // Limit maxDiscount to 100%
-		}
-
-		if (name === 'minPrice' && Number(newValue) < 0) {
-			newValue = '0'; // Prevent minPrice from being negative
-		}
-
-		if (name === 'startDate' && new Date(newValue) < new Date()) {
-			newValue = new Date().toISOString().split('T')[0]; // Prevent past startDate
-		}
-
-		if (name === 'endDate' && new Date(newValue) > new Date('2030-12-31')) {
-			newValue = '2030-12-31'; // Prevent endDate from exceeding 2030
+		if (name === 'endDate' && new Date(newValue) < new Date(voucherData.startDate)) {
+			// Thông báo lỗi nhưng không thay đổi giá trị
+			Swal.mixin({
+				toast: true,
+				position: 'top-end',
+				showConfirmButton: false,
+				timer: 3000,
+				timerProgressBar: true,
+				iconColor: 'red',
+				didOpen: (toast) => {
+					toast.addEventListener('mouseenter', Swal.stopTimer);
+					toast.addEventListener('mouseleave', Swal.resumeTimer);
+				},
+			}).fire({
+				icon: 'error',
+				title: 'End date cannot be earlier than the start date.',
+			});
 		}
 
 		if (name === 'disabled') {
 			newValue = checked ? 'true' : 'false';
 		}
 
+		// Cập nhật dữ liệu form
 		setVoucherData((prev) => ({
 			...prev,
 			[name]: type === 'checkbox' ? checked : newValue,
 		}));
 	};
 
+	// Validate form fields
+	const validateForm = () => {
+		if (!voucherData.code || !voucherData.discount || !voucherData.startDate || !voucherData.endDate) {
+			toast.error('Please fill in all required fields (Voucher Code, Discount, Start Date, End Date)');
+			return false;
+		}
+
+		if (new Date(voucherData.startDate) > new Date(voucherData.endDate)) {
+			toast.error('Start date cannot be later than the end date.');
+			return false;
+		}
+
+		return true;
+	};
+
 	// Submit handler
 	const handleSubmit = () => {
+		if (!validateForm()) {
+			return; // Prevent form submission if validation fails
+		}
+
 		if (voucherData.id > 0) {
 			mutateUpdateVoucher(); // Update voucher
 		} else {
@@ -250,9 +265,9 @@ const VoucherManagement = () => {
 						<TableHead>Discount</TableHead>
 						<TableHead>Max Discount</TableHead>
 						<TableHead>Min Price</TableHead>
+						<TableHead>For Rank</TableHead>
 						<TableHead>Start Date</TableHead>
 						<TableHead>End Date</TableHead>
-						{/* <TableHead>Disabled</TableHead> */}
 						<TableHead>Actions</TableHead>
 					</TableRow>
 				</TableHeader>
@@ -261,11 +276,11 @@ const VoucherManagement = () => {
 						<TableRow key={voucher.id}>
 							<TableCell>{voucher.code}</TableCell>
 							<TableCell>{voucher.discount}%</TableCell>
-							<TableCell>{voucher.maxDiscount}%</TableCell>
+							<TableCell>{voucher.maxDiscount}</TableCell>
 							<TableCell>{voucher.minPrice.toLocaleString()} VNĐ</TableCell>
+							<TableCell>{voucher.forRank}</TableCell>
 							<TableCell>{voucher.startDate}</TableCell>
 							<TableCell>{voucher.endDate}</TableCell>
-							{/* <TableCell>{voucher.disabled ? <span>True</span> : <span>False</span>}</TableCell> */}
 							<TableCell>
 								<Button variant='secondary' size='sm' onClick={() => openDetailDialog(voucher)}>
 									Update
@@ -316,6 +331,26 @@ const VoucherManagement = () => {
 								onChange={handleInputChange}
 								className='mt-1 p-3 w-full border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
 							/>
+						</div>
+
+						<div>
+							<label htmlFor='forRank' className='block mb-1'>
+								For Rank
+							</label>
+							<select
+								name='forRank'
+								id='forRank'
+								className='w-full px-2 py-1 border rounded'
+								value={voucherData.forRank}
+								onChange={handleInputChange}
+								required
+							>
+								{rankOptions.map((rank) => (
+									<option key={rank} value={rank}>
+										{rank}
+									</option>
+								))}
+							</select>
 						</div>
 
 						<div>
@@ -390,20 +425,6 @@ const VoucherManagement = () => {
 								className='mt-1 p-3 w-full border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
 							/>
 						</div>
-
-						{/* <div className='flex items-center'>
-							<input
-								id='disabled'
-								type='checkbox'
-								name='disabled'
-								checked={voucherData.disabled}
-								onChange={handleInputChange}
-								className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
-							/>
-							<label htmlFor='disabled' className='ml-2 text-sm text-gray-700'>
-								Disabled
-							</label>
-						</div> */}
 
 						<Button
 							onClick={handleSubmit}

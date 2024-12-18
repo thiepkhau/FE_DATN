@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import Swal from 'sweetalert2';
 import PageContainer from '@/app/components/page-container';
@@ -189,11 +189,6 @@ const Income = () => {
 		<PageContainer>
 			<div className='flex justify-between mb-4'>
 				<Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-					<DialogTrigger asChild>
-						<Button variant='default' onClick={() => setDialogOpen(true)}>
-							{editingSalary ? 'Edit Salary' : 'Create Salary'}
-						</Button>
-					</DialogTrigger>
 					<DialogContent>
 						<DialogHeader>
 							<DialogTitle>{editingSalary ? 'Edit Salary' : 'Salary Details'}</DialogTitle>
@@ -293,7 +288,7 @@ const Income = () => {
 							<TableCell>{salary.rate}</TableCell>
 							<TableCell>{salary.percentage}</TableCell>
 							<TableCell>
-								<Button onClick={() => handleEditClick(salary)} variant='outline'>
+								<Button onClick={() => handleEditClick(salary)} variant='ghost'>
 									Edit
 								</Button>
 							</TableCell>

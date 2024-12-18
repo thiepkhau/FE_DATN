@@ -52,7 +52,7 @@ const ComboManagement = () => {
 	const queryClient = useQueryClient();
 	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 	const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false);
-	const [removeImages, setRemoveImages] = useState<number[]>([]);
+	const [removeImages, setRemoveImages] = useState<number | null>(null);
 	const [selectedCombo, setSelectedCombo] = useState<Combo | null>(null);
 	const [comboData, setComboData] = useState({
 		serviceIds: [] as number[],
@@ -93,25 +93,16 @@ const ComboManagement = () => {
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
 		if (files && files.length > 0) {
-			const newImages = Array.from(files).map((file) => ({
-				id: Math.random(), // ID tạm thời
-				url: URL.createObjectURL(file), // URL xem trước
-				file, // File gốc
-				isNew: true, // Đánh dấu là hình mới
-			}));
-
 			setComboData((prev) => ({
 				...prev,
-				images: [...prev.images, ...newImages],
+				images: Array.from(files),
 			}));
 		}
 	};
 
 	const handleDeleteImage = (imageId: number) => {
-		// Thêm hình ảnh vào danh sách cần xóa
-		setRemoveImages((prev) => [...prev, imageId]);
+		setRemoveImages(imageId);
 
-		// Loại bỏ hình ảnh khỏi danh sách hiển thị
 		setComboData((prev) => ({
 			...prev,
 			images: prev.images.filter((image: any) => image.id !== imageId),
@@ -212,9 +203,7 @@ const ComboManagement = () => {
 				});
 
 			// Thêm danh sách hình ảnh cần xóa
-			removeImages.forEach((imageId) => {
-				formData.append('remove_images[]', imageId.toString());
-			});
+			removeImages && formData.append('remove_images', removeImages.toString());
 
 			// Thêm danh sách dịch vụ
 			comboData.serviceIds.forEach((id, index) => {
@@ -233,7 +222,7 @@ const ComboManagement = () => {
 				confirmButtonText: 'OK',
 			});
 			setIsDialogOpen(false);
-			setRemoveImages([]);
+			setRemoveImages(null);
 		},
 		onError: (error) => {
 			console.error('Error updating combo:', error);
@@ -294,7 +283,17 @@ const ComboManagement = () => {
 
 	const handleDialogClose = () => {
 		setIsDialogOpen(false);
-		setRemoveImages([]);
+		setRemoveImages(null); // Reset the removed images list
+		setComboData({
+			serviceIds: [],
+			name: '',
+			description: '',
+			price: 0,
+			estimateTime: 0,
+			images: [],
+			id: '',
+		}); // Reset the combo data
+		setSelectedCombo(null);
 	};
 
 	if (isLoadingCombos) return <PageContainer>Loading...</PageContainer>;
@@ -371,15 +370,15 @@ const ComboManagement = () => {
 			{/* Add Combo Dialog */}
 			<Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
 				<DialogOverlay />
-				<DialogContent className='bg-white p-6'>
-					<h3 className='text-xl font-semibold mb-4'>{selectedCombo ? 'Update Combo' : 'Add New Combo'}</h3>
+				<DialogContent className='bg-white max-w-2xl h-[70%] overflow-y-auto'>
+					<h3 className='text-xl font-semibold'>{selectedCombo ? 'Update Combo' : 'Add New Combo'}</h3>
 					<label>Name</label>
 					<input
 						name='name'
 						placeholder='Name'
 						value={comboData.name}
 						onChange={handleInputChange}
-						className='mb-2 p-2 border'
+						className='p-2 border'
 					/>
 					<label>Description</label>
 					<textarea
@@ -387,7 +386,7 @@ const ComboManagement = () => {
 						placeholder='Description'
 						value={comboData.description}
 						onChange={handleInputChange}
-						className='mb-2 p-2 border'
+						className='p-2 border h-12'
 					/>
 					<label>Price</label>
 					<input
@@ -396,7 +395,7 @@ const ComboManagement = () => {
 						placeholder='Price'
 						value={comboData.price}
 						onChange={handleInputChange}
-						className='mb-2 p-2 border'
+						className='p-2 border'
 					/>
 					<label>Estimate Time</label>
 					<input
@@ -405,8 +404,10 @@ const ComboManagement = () => {
 						placeholder='Estimate Time'
 						value={comboData.estimateTime}
 						onChange={handleInputChange}
-						className='mb-2 p-2 border'
+						className='p-2 border'
 					/>
+
+					<input type='file' accept='image/*' onChange={handleImageChange} className='p-2 border' />
 
 					{/* Hiển thị danh sách hình ảnh hiện tại
 					<div className='mb-4'>
@@ -433,15 +434,6 @@ const ComboManagement = () => {
 							))}
 						</div>
 					</div> */}
-
-					{/* <label>Add Images</label>
-					<input
-						type='file'
-						accept='image/*'
-						multiple // Cho phép thêm nhiều hình
-						onChange={handleImageChange}
-						className='mb-2 p-2 border'
-					/> */}
 
 					{/* Chọn dịch vụ */}
 					<div className='mb-4'>
