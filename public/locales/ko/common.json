@@ -131,7 +131,7 @@
 	"advance": "진행: 2000k",
 	"tax": "세금: 10%",
 	"numberOfTurns": "회전 수: 100회",
-	"stylist": "문장가",
+	"stylist": "스타일리스트",
 	"introduceAbout": "소개",
 	"introductDes": "강자들의 아름다움과 자신감을 기리는 명분으로",
 	"aboutIntro01": "바버는 세련된 기술과 현대적인 공간과 헌신적인 케어 서비스가 결합된 고급 헤어 커트 경험을 선사합니다.",
@@ -168,5 +168,18 @@
 	"Services": "서비스",
 	"Combos": "콤보",
 	"combos selected": "선택한 콤보",
-	"Finished": "완료"
+	"Finished": "완료",
+	"CHOOSE STYLIST": "스타일리스트 선택",
+	"Confirm Selection": "선택 확인",
+	"Previous": "이전의",
+	"Page":"페이지",
+	"of": "부터",
+	"Next": "다음 분.",
+	"Reviews & Feedbacks": "리뷰 및 피드백",
+	"Staff Comment":"직원 댓글",
+	"Staff Rating": "직원 등급",
+	"Service":"서비스",
+	"Combo": "콤보",
+	"Comment": "댓글",
+	"Rating": "등급"
 }

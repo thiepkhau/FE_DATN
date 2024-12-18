@@ -10,6 +10,8 @@ import { CustomersResponse } from '@/types/Customer.type';
 import { getStaffs } from '@/app/api/customer/getStaffs';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
+
 
 export default function StylistPage() {
 	const {
@@ -24,6 +26,7 @@ export default function StylistPage() {
 	const stylists = staffData?.payload || [];
 	const [selectedStylistId, setSelectedStylistId] = useState<number | null>(null);
 	const router = useRouter();
+	const { t } = useTranslation('common');
 
 	const handleSelectStylist = (stylistId: number) => {
 		setSelectedStylistId(stylistId);
@@ -57,7 +60,9 @@ export default function StylistPage() {
 							<ArrowLeft className='h-6 w-6' />
 						</Button>
 					</Link>
-					<h1 className='text-xl font-semibold'>CHOOSE STYLIST</h1>
+					<h1 className='text-xl font-semibold'>
+						{t('CHOOSE STYLIST')}
+					</h1>
 				</div>
 
 				{/* Stylist Grid */}
@@ -96,7 +101,7 @@ export default function StylistPage() {
 						onClick={handleConfirmSelection}
 						disabled={selectedStylistId === null}
 					>
-						Confirm Selection
+						{t('Confirm Selection')}
 					</Button>
 				</div>
 			</div>

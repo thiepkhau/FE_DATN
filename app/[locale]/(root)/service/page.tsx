@@ -15,6 +15,7 @@ import { getServices } from '@/app/api/service/getServices';
 import { ServiceResponse } from '@/types/Service.type';
 import Swal from 'sweetalert2';
 import { deleteService } from '@/app/api/service/deleteService';
+import { useTranslation } from 'react-i18next';
 
 export default function Service() {
 	const queryClient = useQueryClient();
@@ -23,6 +24,7 @@ export default function Service() {
 	const [selectedService, setSelectedService] = useState(null);
 	const [mode, setMode] = useState<'add' | 'edit'>('add');
 	const [expandedDescriptions, setExpandedDescriptions] = useState<{ [key: number]: boolean }>({});
+	const { t } = useTranslation('common');
 
 	const toggleDescription = (index: number) => {
 		setExpandedDescriptions((prevState) => ({
@@ -159,10 +161,10 @@ export default function Service() {
 					className='bg-white text-black'
 				>
 					<ChevronLeft className='w-4 h-4 mr-2' />
-					Previous
+					{t('Previous')}
 				</Button>
 				<span className='text-sm text-white'>
-					Page {currentPage} of {totalPages}
+					{t('Page')} {currentPage} {t('of')} {totalPages}
 				</span>
 				<Button
 					variant='outline'
@@ -170,7 +172,7 @@ export default function Service() {
 					disabled={currentPage === totalPages}
 					className='bg-white text-black'
 				>
-					Next
+					{t('Next')}
 					<ChevronRight className='w-4 h-4 ml-2' />
 				</Button>
 			</div>
