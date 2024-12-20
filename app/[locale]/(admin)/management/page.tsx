@@ -146,6 +146,23 @@ export default function DashBoardPage() {
 		}));
 	}, [staffStatisticsData, staffNameMap]);
 
+	// const transformedStaffChartData = useMemo(() => {
+	// 	if (!staffStatisticsData?.payload || !staffNameMap) return [];
+	//
+	// 	// Bổ sung bước xử lý dữ liệu:
+	// 	const mappedData = staffStatisticsData.payload.map((item: any) => ({
+	// 		...item,
+	// 		name: staffNameMap[item.id] || `ID: ${item.id}`,
+	// 	}));
+	//
+	// 	// Sắp xếp dữ liệu theo amountMade (hoặc bạn có thể đổi thành bookingCount)
+	// 	const sortedData = mappedData.sort((a, b) => b.amountMade - a.amountMade);
+	//
+	// 	// Chỉ lấy 2 phần tử đầu tiên
+	// 	return sortedData.slice(0, 2);
+	// }, [staffStatisticsData, staffNameMap]);
+
+
 	const transformedCustomerChartData = useMemo(() => {
 		if (!customerData?.payload || !staffNameMap) return [];
 		return customerData.payload.map((item: any) => ({
@@ -182,10 +199,6 @@ export default function DashBoardPage() {
 		return null;
 	}
 
-	if (!isClient || !isAuthenticated) {
-		return null;
-	}
-
 	return (
 		<PageContainer>
 			<div className='bg-gray-900'>
@@ -199,16 +212,24 @@ export default function DashBoardPage() {
 						{/* Staff Performance Bar Chart */}
 						<div className='md:col-span-2 bg-gray-800 p-4 rounded-lg'>
 							<h3 className='text-sm font-medium text-gray-400 mb-4'>Top Staff Performance</h3>
-							<ResponsiveContainer width='100%' height={300}>
-								<BarChart data={transformedStaffChartData}>
+							<ResponsiveContainer width='100%' height={400}>
+								<BarChart data={transformedStaffChartData}
+								margin={{ left: 50 }}
+								>
+
+
 									<XAxis
 										dataKey='name'
-										stroke='#ccc'
+										fill= 'red'
+										stroke='#8ac7f6'
 										label={{ value: 'Staff Name', position: 'insideBottom', offset: -5 }}
+										tickFormatter={() => ``}
+										hide
+
 									/>
-									<YAxis stroke='#ccc' />
-									<Tooltip />
-									<Bar dataKey='amountMade' name='Revenue' fill='#8884d8' />
+									<YAxis stroke='#eee' />
+									<Tooltip contentStyle={{ color: 'red'}}/>
+									<Bar dataKey='amountMade' name='Revenue' fill='#8ac7f6' />
 									<Bar dataKey='bookingCount' name='Bookings' fill='#82ca9d' />
 								</BarChart>
 							</ResponsiveContainer>
@@ -230,7 +251,7 @@ export default function DashBoardPage() {
 											<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
 										))}
 									</Pie>
-									<Tooltip />
+									<Tooltip  />
 									<Legend />
 								</PieChart>
 							</ResponsiveContainer>
@@ -240,16 +261,18 @@ export default function DashBoardPage() {
 						<div className='md:col-span-2 bg-gray-800 p-4 rounded-lg'>
 							<h3 className='text-sm font-medium text-gray-400 mb-4'>Top Customer Performance</h3>
 							<ResponsiveContainer width='100%' height={300}>
-								<BarChart data={transformedCustomerChartData}>
+								<BarChart data={transformedCustomerChartData}
+										  margin={{ left: 50 }}>
 									<XAxis
 										dataKey='name'
 										stroke='#ccc'
 										label={{ value: 'Customer Name', position: 'insideBottom', offset: -5 }}
+										hide
 									/>
 									<YAxis stroke='#ccc' />
-									<Tooltip />
-									<Bar dataKey='amountMade' name='Revenue' fill='#8884d2' />
-									<Bar dataKey='bookingCount' name='Bookings' fill='#82ca9c' />
+									<Tooltip  contentStyle={{ color: 'red'}} />
+									<Bar dataKey='amountMade' name='Revenue' fill='#8ac7f6' />
+									<Bar dataKey='bookingCount' name='Bookings' fill='#8ac7f6' />
 								</BarChart>
 							</ResponsiveContainer>
 						</div>
@@ -258,16 +281,18 @@ export default function DashBoardPage() {
 								Top Booking Service Popular Performance
 							</h3>
 							<ResponsiveContainer width='100%' height={300}>
-								<BarChart data={transformedBookingServiceChartData}>
+								<BarChart data={transformedBookingServiceChartData}
+										  margin={{ left: 50 }}>
 									<XAxis
 										dataKey='name'
 										stroke='#ccc'
 										label={{ value: 'Customer Name', position: 'insideBottom', offset: -5 }}
+										hide
 									/>
 									<YAxis stroke='#ccc' />
-									<Tooltip />
-									<Bar dataKey='amountMade' name='Revenue' fill='#8884d8' />
-									<Bar dataKey='bookingCount' name='Bookings' fill='#82ca9d' />
+									<Tooltip  contentStyle={{ color: 'red'}} />
+									<Bar dataKey='amountMade' name='Revenue' fill='#8ac7f6' />
+									<Bar dataKey='bookingCount' name='Bookings' fill='#8ac7f6' />
 								</BarChart>
 							</ResponsiveContainer>
 						</div>
@@ -275,17 +300,19 @@ export default function DashBoardPage() {
 							<h3 className='text-sm font-medium text-gray-400 mb-4'>
 								Top Booking Combo Popular Performance
 							</h3>
-							<ResponsiveContainer width='100%' height={300}>
-								<BarChart data={transformedBookingComboChartData}>
+							<ResponsiveContainer width='30%' height={300}>
+								<BarChart data={transformedBookingComboChartData}
+										  margin={{ left: 50 }}>
 									<XAxis
 										dataKey='name'
 										stroke='#ccc'
 										label={{ value: 'Customer Name', position: 'insideBottom', offset: -5 }}
+										hide
 									/>
 									<YAxis stroke='#ccc' />
-									<Tooltip />
-									<Bar dataKey='amountMade' name='Revenue' fill='#8884d8' />
-									<Bar dataKey='bookingCount' name='Bookings' fill='#82ca9d' />
+									<Tooltip  contentStyle={{ color: 'red'}} />
+									<Bar dataKey='amountMade' name='Revenue' fill='#8ac7f6' />
+									<Bar dataKey='bookingCount' name='Bookings' fill='#8ac7f6' />
 								</BarChart>
 							</ResponsiveContainer>
 						</div>

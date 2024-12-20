@@ -324,7 +324,7 @@ export default function Stylist() {
 					<form onSubmit={editingStaff ? handleUpdateStaf : handleCreateStaff} className='p-6'>
 						<div className='mb-4'>
 							<Label htmlFor='name' className='block text-sm font-medium text-gray-700'>
-								Name:
+								Name
 							</Label>
 							<Input
 								type='text'
@@ -338,7 +338,7 @@ export default function Stylist() {
 
 						<div className='mb-4'>
 							<Label htmlFor='email' className='block text-sm font-medium text-gray-700'>
-								Email:
+								Email
 							</Label>
 							<Input
 								type='email'
@@ -352,7 +352,7 @@ export default function Stylist() {
 
 						<div className='mb-4'>
 							<Label htmlFor='phone' className='block text-sm font-medium text-gray-700'>
-								Phone:
+								Phone
 							</Label>
 							<Input
 								type='text'
@@ -366,7 +366,7 @@ export default function Stylist() {
 
 						<div className='mb-4'>
 							<Label htmlFor='dob' className='block text-sm font-medium text-gray-700'>
-								Date of Birth:
+								Date of Birth
 							</Label>
 							<Input
 								type='date'
@@ -380,7 +380,7 @@ export default function Stylist() {
 
 						<div className='mb-4'>
 							<Label htmlFor='password' className='block text-sm font-medium text-gray-700'>
-								Password:
+								Password
 							</Label>
 							<Input
 								type='password'
