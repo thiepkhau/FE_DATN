@@ -61,23 +61,23 @@ export interface NavItem {
 
 const navItems: NavItem[] = [
 	{ title: 'DASHBOARD', href: '/management', icon: LayoutDashboard },
-	{ title: 'MANAGEMENT STYLIST', href: '/management/stylist', icon: Scissors },
-	{ title: 'MANAGEMENT STAFF SHIFT', href: '/management/staff-shift', icon: Clock4 },
-	{ title: 'MANAGEMENT SHIFT', href: '/management/shift', icon: ChevronsUpDown },
+	{ title: 'MANAGE STYLIST', href: '/management/stylist', icon: Scissors },
+	{ title: 'MANAGE STAFF SHIFT', href: '/management/staff-shift', icon: Clock4 },
+	{ title: 'MANAGE SHIFT', href: '/management/shift', icon: ChevronsUpDown },
 	{
-		title: 'MANAGEMENT SERVICE',
+		title: 'MANAGE SERVICE',
 		href: '/management/service',
 		icon: Settings,
 		subItems: [{ title: 'Service Type', href: '/management/service/service-type', icon: Settings }],
 	},
-	{ title: 'MANAGEMENT CUSTOMER', href: '/management/customer', icon: Users },
-	{ title: 'MANAGEMENT FEEDBACK', href: '/management/feedback', icon: MessageSquare },
-	{ title: 'MANAGEMENT BOOKING', href: '/management/booking', icon: Calendar },
-	{ title: 'MANAGEMENT VOUCHER', href: '/management/voucher', icon: Ticket },
-	{ title: 'MANAGEMENT BILL', href: '/management/bill', icon: Receipt },
+	{ title: 'MANAGE CUSTOMER', href: '/management/customer', icon: Users },
+	{ title: 'MANAGE FEEDBACK', href: '/management/feedback', icon: MessageSquare },
+	{ title: 'MANAGE BOOKING', href: '/management/booking', icon: Calendar },
+	{ title: 'MANAGE VOUCHER', href: '/management/voucher', icon: Ticket },
+	{ title: 'MANAGE BILL', href: '/management/bill', icon: Receipt },
 	// { title: 'BARBER HISTORY', href: '/management/history', icon: Clock4 },
-	{ title: 'MANAGEMENT COMBO', href: '/management/combo', icon: PlusSquare },
-	{ title: 'MANAGEMENT SALARY', href: '/management/income', icon: DollarSign },
+	{ title: 'MANAGE COMBO', href: '/management/combo', icon: PlusSquare },
+	{ title: 'MANAGE SALARY', href: '/management/income', icon: DollarSign },
 ];
 
 export default function AppSidebar({ children }: { children: React.ReactNode }) {
