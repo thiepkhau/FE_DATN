@@ -371,7 +371,7 @@ const StaffShift = () => {
 										<TableCell>
 											<Button
 												variant='destructive'
-												onClick={() => handleDeleteShift(shift?.staff?.id)}
+												onClick={() => handleDeleteShift(shift?.id)}
 											>
 												Delete
 											</Button>
