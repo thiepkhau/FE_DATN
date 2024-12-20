@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -304,6 +304,8 @@ export default function Stylist() {
 
 	return (
 		<PageContainer>
+			<h1 className='text-2xl font-bold text-center text-white'>MANAGE STYLIST</h1>
+			<br/>
 			<Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
 				<DialogTrigger>
 					<Button
@@ -311,7 +313,7 @@ export default function Stylist() {
 						size='lg'
 						onClick={handleAddMemberClick}
 					>
-						<Plus className='w-6 h-6 mr-2' />
+						<Plus className='w-6 h-6 mr-2'/>
 						ADD MEMBER
 					</Button>
 				</DialogTrigger>
@@ -404,8 +406,9 @@ export default function Stylist() {
 						<CardContent className='p-0'>
 							<div></div>
 							<div className='relative h-48'>
-								<Image src={member.avatar.thumbUrl} alt='avt' fill className='object-contain' />
-								<span className='absolute top-2 right-2 bg-black/70 text-white px-2 py-1 text-xs font-bold rounded'>
+								<Image src={member.avatar.thumbUrl} alt='avt' fill className='object-contain'/>
+								<span
+									className='absolute top-2 right-2 bg-black/70 text-white px-2 py-1 text-xs font-bold rounded'>
 									{member.role}
 								</span>
 							</div>
@@ -414,7 +417,7 @@ export default function Stylist() {
 								<p className='text-sm text-gray-600'>{member.phone}</p>
 								<p className='text-sm text-gray-600'>{member.verified}</p>
 								<span>
-									{Array.from({ length: 5 }, (_, index) => (
+									{Array.from({length: 5}, (_, index) => (
 										<span
 											key={index}
 											className={index < member.rating ? 'text-yellow-500' : 'text-gray-400'}
@@ -432,7 +435,7 @@ export default function Stylist() {
 								className='text-green-600 hover:text-green-700 hover:bg-green-50'
 								onClick={() => handleEditClick(member)}
 							>
-								<Edit className='w-4 h-4 mr-2' />
+								<Edit className='w-4 h-4 mr-2'/>
 								Edit
 							</Button>
 
@@ -456,7 +459,7 @@ export default function Stylist() {
 					disabled={currentPage === 1}
 					className='bg-white text-black'
 				>
-					<ChevronLeft className='w-4 h-4 mr-2' />
+					<ChevronLeft className='w-4 h-4 mr-2'/>
 					Previous
 				</Button>
 				<span className='text-sm text-white'>
@@ -469,7 +472,7 @@ export default function Stylist() {
 					className='bg-white text-black'
 				>
 					Next
-					<ChevronRight className='w-4 h-4 ml-2' />
+					<ChevronRight className='w-4 h-4 ml-2'/>
 				</Button>
 			</div>
 

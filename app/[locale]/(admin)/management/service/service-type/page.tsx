@@ -188,7 +188,10 @@ const ServiceType = () => {
 
 	return (
 		<PageContainer>
+			<h1 className='text-2xl font-bold text-center text-white'>MANAGE SERVICE TYPE</h1>
+			<br/>
 			<div className='flex justify-between mb-4'>
+
 				<Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
 					<DialogTrigger asChild>
 						<Button variant='default' onClick={() => setDialogOpen(true)}>
@@ -280,16 +283,16 @@ const ServiceType = () => {
 			<div className='flex justify-between items-center mt-4'>
 				<div className='flex space-x-2'>
 					<Button onClick={goToFirstPage} disabled={currentPage === 1}>
-						<ChevronFirst />
+						<ChevronFirst/>
 					</Button>
 					<Button onClick={goToPreviousPage} disabled={currentPage === 1}>
-						<ChevronLeft />
+						<ChevronLeft/>
 					</Button>
 					<Button onClick={goToNextPage} disabled={currentPage === totalPages}>
-						<ChevronRight />
+						<ChevronRight/>
 					</Button>
 					<Button onClick={goToLastPage} disabled={currentPage === totalPages}>
-						<ChevronLast />
+						<ChevronLast/>
 					</Button>
 				</div>
 				<div>

@@ -5,7 +5,7 @@ import PageContainer from '@/app/components/page-container';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger, DialogContent, DialogOverlay } from '@/components/ui/dialog';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { getVouchers } from '@/app/api/voucher/getVoucher';
 import { createVoucher } from '@/app/api/voucher/createVoucher';
@@ -252,7 +252,7 @@ const VoucherManagement = () => {
 	return (
 		<PageContainer>
 			<div className='flex justify-between items-center'>
-				<h2 className='text-2xl font-semibold mb-6'>Voucher Management</h2>
+				<h1 className='text-2xl font-bold text-center text-white'>VOUCHER MANAGE</h1>
 				<Button className='bg-green-600 hover:bg-green-700' onClick={() => setIsDialogOpen(true)}>
 					Add Voucher
 				</Button>

@@ -177,6 +177,8 @@ const Shift = () => {
 
 	return (
 		<PageContainer>
+			<h1 className='text-2xl font-bold text-center text-white'>MANAGE SHIFT</h1>
+			<br/>
 			<div className='flex justify-between mb-4'>
 				<Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
 					<DialogTrigger asChild>
@@ -269,19 +271,19 @@ const Shift = () => {
 				{/* Pagination Controls */}
 				<div className='flex justify-between mt-4 px-4'>
 					<Button onClick={goToFirstPage} disabled={currentPage === 1}>
-						<ChevronFirst />
+						<ChevronFirst/>
 					</Button>
 					<Button onClick={goToPreviousPage} disabled={currentPage === 1}>
-						<ChevronLeft />
+						<ChevronLeft/>
 					</Button>
 					<div className='flex items-center'>
 						Page {currentPage} of {totalPages}
 					</div>
 					<Button onClick={goToNextPage} disabled={currentPage === totalPages}>
-						<ChevronRight />
+						<ChevronRight/>
 					</Button>
 					<Button onClick={goToLastPage} disabled={currentPage === totalPages}>
-						<ChevronLast />
+						<ChevronLast/>
 					</Button>
 				</div>
 			</div>

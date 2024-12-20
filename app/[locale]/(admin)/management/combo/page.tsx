@@ -305,7 +305,7 @@ const ComboManagement = () => {
 	return (
 		<PageContainer>
 			<div className='flex justify-between items-center'>
-				<h2 className='text-2xl font-semibold mb-6'>Combo Management</h2>
+				<h2 className='text-2xl font-semibold mb-6'>COMBO MANAGE</h2>
 				<Button className='bg-green-600 hover:bg-green-700' onClick={() => setIsDialogOpen(true)}>
 					Add Combo
 				</Button>

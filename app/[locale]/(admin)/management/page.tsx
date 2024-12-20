@@ -205,7 +205,7 @@ export default function DashBoardPage() {
 				<div className='rounded-lg bg-gray-800/50 backdrop-blur-sm p-6'>
 					{/* Header */}
 					<div className='flex justify-between items-center mb-6'>
-						<h1 className='text-2xl font-bold text-white'>DASHBOARD MANAGEMENT</h1>
+						<h1 className='text-2xl font-bold text-white'>DASHBOARD MANAGE</h1>
 					</div>
 
 					<div className='grid md:grid-cols-3 gap-6'>
