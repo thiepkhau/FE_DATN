@@ -207,16 +207,19 @@ export default function Service() {
 			/>
 			<div className='relative container-lg !pt-20'>
 				{/* Header */}
-				<Link href='/book'>
 					<div className='relative p-4 space-y-4 z-10 max-w-xl mx-auto'>
 						<div className='flex items-center justify-between gap-4 text-white'>
-							<ArrowLeft className='w-6 h-6' />
+							<ArrowLeft
+								className='w-6 h-6 cursor-pointer'
+								onClick={() => window.history.back()}
+							/>
 							<span>{t('Select service(s = 1000d)')}</span>
 							<span></span>
 						</div>
-						<Input type='search' placeholder={t('searchService')} className='bg-white' />
+						<div className='bg-white h-10 rounded-md flex items-center px-4'></div>
+
 					</div>
-				</Link>
+
 
 				{/* Tab */}
 				<div className='flex justify-center space-x-4 mb-6'>
@@ -272,12 +275,12 @@ export default function Service() {
 											</div>
 											<div className='inline-block'>
 												<span className='inline-flex items-center rounded-full bg-amber-100 dark:bg-amber-900/30 px-3 py-1 text-sm font-medium text-amber-800 dark:text-amber-500'>
-													Same price all week
+													{t('Same price all week')}
 												</span>
 											</div>
 											<div className='space-y-1'>
 												<div className='text-sm font-medium text-muted-foreground'>
-													Standard price
+													{t('Standard price')}
 												</div>
 												<div className='text-2xl font-bold'>
 													{service.price.toLocaleString()}đ
@@ -291,11 +294,7 @@ export default function Service() {
 											size='lg'
 											onClick={() => toggleService(service.id, service.price, 'service')}
 										>
-											{selectedServices.has(service.id) ? (
-												'Remove service'
-											) : (
-												<span>{t('addService')}</span>
-											)}
+											{selectedServices.has(service.id) ? (<span>{t('removeService')}</span>) : (<span>{t('addService')}</span>)}
 										</Button>
 									</CardFooter>
 								</Card>
@@ -335,12 +334,12 @@ export default function Service() {
 											</div>
 											<div className='inline-block'>
 												<span className='inline-flex items-center rounded-full bg-amber-100 dark:bg-amber-900/30 px-3 py-1 text-sm font-medium text-amber-800 dark:text-amber-500'>
-													Same price all week
+													{t('Same price all week')}
 												</span>
 											</div>
 											<div className='space-y-1'>
 												<div className='text-sm font-medium text-muted-foreground'>
-													Standard price
+													{t('Standard price')}
 												</div>
 												<div className='text-2xl font-bold'>
 													{combo.price.toLocaleString()}K
@@ -354,7 +353,8 @@ export default function Service() {
 											size='lg'
 											onClick={() => toggleService(combo.id, combo.price, 'combo')}
 										>
-											{selectedCombos.has(combo.id) ? 'Remove Combo' : 'Add Combo'}
+											{selectedCombos.has(combo.id) ?( <span>{t('removeCombo')}</span>) : (<span>{t('addCombo')}</span>)}
+
 										</Button>
 									</CardFooter>
 								</Card>
@@ -362,7 +362,7 @@ export default function Service() {
 				</div>
 
 				{/* Bottom Bar */}
-				<div className='fixed max-w-4xl mx-auto bottom-10 left-0 right-0 bg-white z-30 p-4 shadow-xl rounded-md'>
+				<div className='fixed max-w-4xl mx-auto bottom-0 left-0 right-0 bg-white z-30 p-4 shadow-xl rounded-md'>
 					<div className='container-lg mx-auto flex items-center justify-between flex-col'>
 						<div className='space-y-1 w-full'>
 							<div className='flex flex-col gap-2'>

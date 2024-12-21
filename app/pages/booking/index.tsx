@@ -317,19 +317,19 @@ export default function BookingForm() {
 			const response =
 				userRole === 'ROLE_ADMIN'
 					? await createAdminBook({
-							staff_id,
-							note,
-							startTime,
-							serviceIds,
-							comboIds,
-					  })
+						staff_id,
+						note,
+						startTime,
+						serviceIds,
+						comboIds,
+					})
 					: await createBook({
-							staff_id,
-							note,
-							startTime,
-							serviceIds,
-							comboIds,
-					  });
+						staff_id,
+						note,
+						startTime,
+						serviceIds,
+						comboIds,
+					});
 			localStorage.setItem('bookingResponse', JSON.stringify(response));
 			localStorage.removeItem('bookingData');
 			setBookingData(null);
