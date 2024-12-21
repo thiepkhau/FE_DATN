@@ -97,12 +97,13 @@ export default function StylistPage() {
 				<div className='flex justify-center pt-4'>
 					<Button
 						variant='ghost'
-						className='text-white'
+						className='text-white border-2 border-gray-400 rounded-lg hover:bg-blue-600 hover:border-blue-600 active:bg-blue-700 active:border-blue-700 transition-colors duration-300'
 						onClick={handleConfirmSelection}
 						disabled={selectedStylistId === null}
 					>
 						{t('Confirm Selection')}
 					</Button>
+
 				</div>
 			</div>
 		</div>
