@@ -217,15 +217,15 @@ export default function BookingForm() {
 	const timeSlots = generateTimeSlots('07:20', '16:20', 20);
 
 	const handleBooking = async () => {
-		if (!isAuthenticated) {
-			Swal.fire({
-				title: 'Please login first!',
-				text: 'You need to be logged in to book an appointment.',
-				icon: 'info',
-				confirmButtonText: 'OK',
-			});
-			return;
-		}
+		// if (!isAuthenticated) {
+		// 	Swal.fire({
+		// 		title: 'Please login first!',
+		// 		text: 'You need to be logged in to book an appointment.',
+		// 		icon: 'info',
+		// 		confirmButtonText: 'OK',
+		// 	});
+		// 	return;
+		// }
 
 		if (!bookingData || !date || !selectedTime) {
 			Swal.fire({
