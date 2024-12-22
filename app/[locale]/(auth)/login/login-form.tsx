@@ -229,31 +229,31 @@ export default function LoginForm() {
 				)}
 
 				{/* Social Login Options */}
-				{/*{!isForgotPassword && (*/}
-				{/*	<div className='mt-8'>*/}
-				{/*		<div className='relative'>*/}
-				{/*			<div className='absolute inset-0 flex items-center'>*/}
-				{/*				<span className='w-full border-t border-gray-700' />*/}
-				{/*			</div>*/}
-				{/*			<div className='relative flex justify-center text-xs uppercase'>*/}
-				{/*				<span className='bg-[#0a0a0a] px-2 text-gray-400'>Or continue with</span>*/}
-				{/*			</div>*/}
-				{/*		</div>*/}
-				{/*		<div className='mt-6 grid grid-cols-3 gap-4'>*/}
-				{/*			<a href='https://fauction.online/oauth2/authorization/google' className='w-full'>*/}
-				{/*				<Button variant='outline' className='bg-white hover:bg-gray-100 w-full'>*/}
-				{/*					<Image src={Google} alt='Google' width={46} height={46} className='size-6' />*/}
-				{/*				</Button>*/}
-				{/*			</a>*/}
-				{/*			<Button variant='outline' className='bg-white hover:bg-gray-100'>*/}
-				{/*				<Image src={Meta} alt='Meta' width={46} height={46} className='size-6' />*/}
-				{/*			</Button>*/}
-				{/*			<Button variant='outline' className='bg-white hover:bg-gray-100'>*/}
-				{/*				<Image src={Apple} alt='Apple' width={46} height={46} className='size-6' />*/}
-				{/*			</Button>*/}
-				{/*		</div>*/}
-				{/*	</div>*/}
-				{/*)}*/}
+				{!isForgotPassword && (
+					<div className='mt-8'>
+						<div className='relative'>
+							<div className='absolute inset-0 flex items-center'>
+								<span className='w-full border-t border-gray-700' />
+							</div>
+							<div className='relative flex justify-center text-xs uppercase'>
+								<span className='bg-[#0a0a0a] px-2 text-gray-400'>Or continue with</span>
+							</div>
+						</div>
+						<div className='mt-6 grid grid-cols-3 gap-4'>
+							<a href='https://fauction.online/oauth2/authorization/google' className='w-full'>
+								<Button variant='outline' className='bg-white hover:bg-gray-100 w-full'>
+									<Image src={Google} alt='Google' width={46} height={46} className='size-6' />
+								</Button>
+							</a>
+							<Button variant='outline' className='bg-white hover:bg-gray-100'>
+								<Image src={Meta} alt='Meta' width={46} height={46} className='size-6' />
+							</Button>
+							<Button variant='outline' className='bg-white hover:bg-gray-100'>
+								<Image src={Apple} alt='Apple' width={46} height={46} className='size-6' />
+							</Button>
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);
