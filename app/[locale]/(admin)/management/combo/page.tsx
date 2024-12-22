@@ -409,7 +409,7 @@ const ComboManagement = () => {
 
 					<input type='file' accept='image/*' onChange={handleImageChange} className='p-2 border' />
 
-					{/* Hiển thị danh sách hình ảnh hiện tại
+				 {/*Hiển thị danh sách hình ảnh hiện tại*/}
 					<div className='mb-4'>
 						<h4>Current Images</h4>
 						<div className='grid grid-cols-3 gap-4'>
@@ -433,7 +433,7 @@ const ComboManagement = () => {
 								</div>
 							))}
 						</div>
-					</div> */}
+					</div>
 
 					{/* Chọn dịch vụ */}
 					<div className='mb-4'>
