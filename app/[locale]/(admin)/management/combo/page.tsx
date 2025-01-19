@@ -305,7 +305,7 @@ const ComboManagement = () => {
 	return (
 		<PageContainer>
 			<div className='flex justify-between items-center'>
-				<h2 className='text-2xl font-semibold mb-6'>COMBO MANAGE</h2>
+				<h2 className='text-2xl font-semibold mb-6'>Combo Management</h2>
 				<Button className='bg-green-600 hover:bg-green-700' onClick={() => setIsDialogOpen(true)}>
 					Add Combo
 				</Button>
@@ -409,7 +409,7 @@ const ComboManagement = () => {
 
 					<input type='file' accept='image/*' onChange={handleImageChange} className='p-2 border' />
 
-				 {/*Hiển thị danh sách hình ảnh hiện tại*/}
+					{/* Hiển thị danh sách hình ảnh hiện tại
 					<div className='mb-4'>
 						<h4>Current Images</h4>
 						<div className='grid grid-cols-3 gap-4'>
@@ -433,7 +433,7 @@ const ComboManagement = () => {
 								</div>
 							))}
 						</div>
-					</div>
+					</div> */}
 
 					{/* Chọn dịch vụ */}
 					<div className='mb-4'>

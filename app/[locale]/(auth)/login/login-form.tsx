@@ -199,8 +199,7 @@ export default function LoginForm() {
 						{/* Submit Button */}
 						<div className='mt-6 flex flex-col gap-2'>
 							<Button
-								variant='outline'
-								className='w-full h-12 text-lg font-bold bg-[#F5A524] hover:bg-[#FFFFFF]/90 text-black'
+								className='w-full h-12 text-lg font-bold bg-[#F5A524] hover:bg-[#F5A524]/90 text-black'
 								type='submit'
 								disabled={loading}
 							>
@@ -209,8 +208,7 @@ export default function LoginForm() {
 							<Link href='/register'>
 								<Button
 									variant='outline'
-									className='w-full h-12 text-lg font-bold bg-[#F5A524] hover:bg-[#FFFFFF]/90 text-black'
-
+									className='w-full h-12 text-lg font-bold border-[#F5A524] text-[#F5A524] hover:bg-[#F5A524] hover:text-black'
 								>
 									REGISTER
 								</Button>

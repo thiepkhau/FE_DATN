@@ -10,8 +10,6 @@ import { CustomersResponse } from '@/types/Customer.type';
 import { getStaffs } from '@/app/api/customer/getStaffs';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
-
 
 export default function StylistPage() {
 	const {
@@ -26,7 +24,6 @@ export default function StylistPage() {
 	const stylists = staffData?.payload || [];
 	const [selectedStylistId, setSelectedStylistId] = useState<number | null>(null);
 	const router = useRouter();
-	const { t } = useTranslation('common');
 
 	const handleSelectStylist = (stylistId: number) => {
 		setSelectedStylistId(stylistId);
@@ -60,9 +57,7 @@ export default function StylistPage() {
 							<ArrowLeft className='h-6 w-6' />
 						</Button>
 					</Link>
-					<h1 className='text-xl font-semibold'>
-						{t('CHOOSE STYLIST')}
-					</h1>
+					<h1 className='text-xl font-semibold'>CHOOSE STYLIST</h1>
 				</div>
 
 				{/* Stylist Grid */}
@@ -97,13 +92,12 @@ export default function StylistPage() {
 				<div className='flex justify-center pt-4'>
 					<Button
 						variant='ghost'
-						className='text-white border-2 border-gray-400 rounded-lg hover:bg-blue-600 hover:border-blue-600 active:bg-blue-700 active:border-blue-700 transition-colors duration-300'
+						className='text-white'
 						onClick={handleConfirmSelection}
 						disabled={selectedStylistId === null}
 					>
-						{t('Confirm Selection')}
+						Confirm Selection
 					</Button>
-
 				</div>
 			</div>
 		</div>

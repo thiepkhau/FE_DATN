@@ -37,7 +37,7 @@ import {
 	PlusSquare,
 	ChevronsUpDown,
 	CreditCard,
-	LogOut, Home,
+	LogOut,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -209,13 +209,18 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 									</DropdownMenuLabel>
 									<DropdownMenuSeparator />
 									<DropdownMenuGroup>
-										<DropdownMenuItem >
-											<Link href='/' className='flex items-center gap-2'>
-												<Home size={16} />
-												Home Page
-											</Link>
+										<DropdownMenuItem>
+											<BadgeCheck />
+											Account
 										</DropdownMenuItem>
-
+										<DropdownMenuItem>
+											<CreditCard />
+											Billing
+										</DropdownMenuItem>
+										<DropdownMenuItem>
+											<Bell />
+											Notifications
+										</DropdownMenuItem>
 									</DropdownMenuGroup>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem onClick={handleLogout}>

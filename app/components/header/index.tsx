@@ -140,7 +140,7 @@ export default function Header() {
 
 	const languages = useMemo(
 		() => [
-			{ code: 'en', label: 'English', flag: '🇺🇸' },
+			{ code: 'vi', label: 'Vietnamese', flag: 'vn' },
 			{ code: 'ko', label: '한국어', flag: '🇰🇷' },
 		],
 		[]
@@ -289,8 +289,8 @@ export default function Header() {
 													dataProfile?.rank === 'BRONZE'
 														? 'bg-yellow-400/15 text-yellow-600'
 														: dataProfile.rank === 'DIAMOND'
-															? 'bg-blue-400/15 text-blue-600'
-															: 'bg-green-400/15 text-green-600'
+														? 'bg-blue-400/15 text-blue-600'
+														: 'bg-green-400/15 text-green-600'
 												}`}
 											>
 												{dataProfile?.rank}

@@ -217,15 +217,15 @@ export default function BookingForm() {
 	const timeSlots = generateTimeSlots('07:20', '16:20', 20);
 
 	const handleBooking = async () => {
-		// if (!isAuthenticated) {
-		// 	Swal.fire({
-		// 		title: 'Please login first!',
-		// 		text: 'You need to be logged in to book an appointment.',
-		// 		icon: 'info',
-		// 		confirmButtonText: 'OK',
-		// 	});
-		// 	return;
-		// }
+		if (!isAuthenticated) {
+			Swal.fire({
+				title: 'Please login first!',
+				text: 'You need to be logged in to book an appointment.',
+				icon: 'info',
+				confirmButtonText: 'OK',
+			});
+			return;
+		}
 
 		if (!bookingData || !date || !selectedTime) {
 			Swal.fire({
@@ -317,19 +317,19 @@ export default function BookingForm() {
 			const response =
 				userRole === 'ROLE_ADMIN'
 					? await createAdminBook({
-						staff_id,
-						note,
-						startTime,
-						serviceIds,
-						comboIds,
-					})
+							staff_id,
+							note,
+							startTime,
+							serviceIds,
+							comboIds,
+					  })
 					: await createBook({
-						staff_id,
-						note,
-						startTime,
-						serviceIds,
-						comboIds,
-					});
+							staff_id,
+							note,
+							startTime,
+							serviceIds,
+							comboIds,
+					  });
 			localStorage.setItem('bookingResponse', JSON.stringify(response));
 			localStorage.removeItem('bookingData');
 			setBookingData(null);
@@ -363,8 +363,7 @@ export default function BookingForm() {
 								<Button className='flex items-center justify-between w-full bg-white hover:bg-gray-300'>
 									<div className='flex items-center'>
 										<Scissors className='mr-2 h-4 w-4 text-gray-900' />
-										<span className='text-gray-900'>
-											{t('See all attractive services..')}</span>
+										<span className='text-gray-900'>See all attractive services..</span>
 									</div>
 									<ChevronRight className='ml-auto h-4 w-4 text-gray-900' />
 								</Button>
@@ -427,14 +426,14 @@ export default function BookingForm() {
 								<Link href='/stylist'>
 									<Button variant='outline' className='flex-1 bg-white text-black'>
 										<Image src={Face} alt='face' className='mr-2 h-7 w-6' />
-										{t('Choose stylist')}
+										Choose stylist
 										<ChevronRight className='ml-auto h-4 w-4' />
 									</Button>
 								</Link>
-								{/*<Button variant='outline' className='flex-1 bg-white text-black'>*/}
-								{/*	<Upload className='mr-2 h-4 w-4' />*/}
-								{/*	{t('uploadHairstyle')}*/}
-								{/*</Button>*/}
+								<Button variant='outline' className='flex-1 bg-white text-black'>
+									<Upload className='mr-2 h-4 w-4' />
+									{t('uploadHairstyle')}
+								</Button>
 							</div>
 							{bookingData?.selectedStylist && (
 								<div className='bg-white/20 rounded-lg p-4 space-y-2'>

@@ -34,7 +34,7 @@ export default function BarberHistory() {
 	return (
 		<PageContainer>
 			<div className='container-lg flex flex-col gap-6'>
-				<h1 className='text-2xl font-bold text-center text-white'>MANAGE BARBER HISTORY</h1>
+				<h1 className='text-2xl font-bold text-center text-white'>MANAGEMENT BABER HISTORY</h1>
 
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
 					{getCurrentBarbers().map((barber, index) => (

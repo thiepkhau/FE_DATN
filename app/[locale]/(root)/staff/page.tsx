@@ -8,8 +8,6 @@ import { useQuery } from '@tanstack/react-query';
 import { CustomersResponse } from '@/types/Customer.type';
 import { getStaffs } from '@/app/api/customer/getStaffs';
 import { useRouter } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
-import {ChevronLeft, ChevronRight} from "lucide-react";
 
 export default function Stylist() {
 	const {
@@ -24,7 +22,6 @@ export default function Stylist() {
 	const stylists = staffData?.payload || [];
 	const [selectedStylistId, setSelectedStylistId] = useState<number | null>(null);
 	const router = useRouter();
-	const { t } = useTranslation('common');
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const stylistsPerPage = 8;
@@ -106,27 +103,21 @@ export default function Stylist() {
 				</div>
 
 				{/* Pagination Controls */}
-				<div className='flex justify-between items-center container-lg'>
+				<div className='flex justify-center items-center gap-4 mt-4'>
 					<Button
-						variant='outline'
 						onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
 						disabled={currentPage === 1}
-						className='bg-white text-black'
 					>
-						<ChevronLeft className='w-4 h-4 mr-2'/>
-						{t('Previous')}
+						Previous
 					</Button>
-					<span className='text-sm text-white'>
-					{t('Page')} {currentPage} {t('of')} {totalPages}
-				</span>
+					<span>
+						Page {currentPage} of {totalPages}
+					</span>
 					<Button
-						variant='outline'
 						onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
 						disabled={currentPage === totalPages}
-						className='bg-white text-black'
 					>
-						{t('Next')}
-						<ChevronRight className='w-4 h-4 ml-2'/>
+						Next
 					</Button>
 				</div>
 			</div>

@@ -9,20 +9,21 @@ import PageContainer from '@/app/components/page-container';
 import { useAuth } from '@/context/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
 import { getCustomersStatistics } from '@/app/api/statistic/getStatisticCustomers';
-import { getStaffStatistics } from '@/app/api/statistic/getStatisticStaffs'; // Added import for staff statistics API
+import { getStaffStatistics } from '@/app/api/statistic/getStatisticStaffs';
 import { CustomersResponse } from '@/types/Customer.type';
 import { getStaffs } from '@/app/api/customer/getStaffs';
 import { getBookingStatistics } from '@/app/api/statistic/getBookingStatistics';
 import { getBookingServiceStatistics } from '@/app/api/statistic/getBookingService';
 import { getBookingComboStatistics } from '@/app/api/statistic/getBookingCombo';
 
-const timeFilters = ['1 Week', '1 Month', '6 Month', '1 Year', 'Ever'];
+const timeFilters = ['1 Tuần', '1 Tháng', '6 Tháng', '1 Năm', 'Tất cả'];
 
 export default function DashBoardPage() {
-	const [selectedFilter, setSelectedFilter] = useState('1 Week');
+	const [selectedFilter, setSelectedFilter] = useState('1 Tuần');
 	const [fromDate, setFromDate] = useState('');
 	const [toDate, setToDate] = useState('');
-	const [staffNameMap, setStaffNameMap] = useState<any>({});
+	const [staffNameMap, setStaffNameMap] = useState<Record<number, string>>({});
+	const [customNameMap, setCustomNameMap] = useState<Record<number, string>>({});
 	const year = 2024;
 
 	const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
@@ -32,26 +33,26 @@ export default function DashBoardPage() {
 		let from = new Date();
 
 		switch (filter) {
-			case '1 Week':
+			case '1 Tuần':
 				from.setDate(now.getDate() - 7);
 				break;
-			case '1 Month':
+			case '1 Tháng':
 				from.setMonth(now.getMonth() - 1);
 				break;
-			case '6 Month':
+			case '6 Tháng':
 				from.setMonth(now.getMonth() - 6);
 				break;
-			case '1 Year':
+			case '1 Năm':
 				from.setFullYear(now.getFullYear() - 1);
 				break;
-			case 'Ever':
+			case 'Tất cả':
 				from = new Date('1970-01-01');
 				break;
 			default:
 				break;
 		}
 
-		setFromDate(from.toISOString().split('T')[0]); // Format to YYYY-MM-DD
+		setFromDate(from.toISOString().split('T')[0]);
 		setToDate(now.toISOString().split('T')[0]);
 	};
 
@@ -138,6 +139,16 @@ export default function DashBoardPage() {
 		}
 	}, [staffData]);
 
+	useEffect(() => {
+		if (customerData?.payload) {
+			const mapping: Record<number, string> = {};
+			customerData.payload.forEach((customer: any) => {
+				mapping[customer.id] = customer.name;
+			});
+			setCustomNameMap(mapping);
+		}
+	}, [customerData]);
+
 	const transformedStaffChartData = useMemo(() => {
 		if (!staffStatisticsData?.payload || !staffNameMap) return [];
 		return staffStatisticsData.payload.map((item: any) => ({
@@ -146,30 +157,13 @@ export default function DashBoardPage() {
 		}));
 	}, [staffStatisticsData, staffNameMap]);
 
-	// const transformedStaffChartData = useMemo(() => {
-	// 	if (!staffStatisticsData?.payload || !staffNameMap) return [];
-	//
-	// 	// Bổ sung bước xử lý dữ liệu:
-	// 	const mappedData = staffStatisticsData.payload.map((item: any) => ({
-	// 		...item,
-	// 		name: staffNameMap[item.id] || `ID: ${item.id}`,
-	// 	}));
-	//
-	// 	// Sắp xếp dữ liệu theo amountMade (hoặc bạn có thể đổi thành bookingCount)
-	// 	const sortedData = mappedData.sort((a, b) => b.amountMade - a.amountMade);
-	//
-	// 	// Chỉ lấy 2 phần tử đầu tiên
-	// 	return sortedData.slice(0, 2);
-	// }, [staffStatisticsData, staffNameMap]);
-
-
 	const transformedCustomerChartData = useMemo(() => {
-		if (!customerData?.payload || !staffNameMap) return [];
+		if (!customerData?.payload || !customNameMap) return [];
 		return customerData.payload.map((item: any) => ({
 			...item,
-			name: staffNameMap[item.id] || `ID: ${item.id}`,
+			name: customNameMap[item.id] || `ID: ${item.id}`,
 		}));
-	}, [customerData, staffNameMap]);
+	}, [customerData, customNameMap]);
 
 	const transformedBookingServiceChartData = useMemo(() => {
 		if (!bookingServiceStatisticsData?.payload || !staffNameMap) return [];
@@ -190,8 +184,8 @@ export default function DashBoardPage() {
 	const pieChartData = useMemo(() => {
 		if (!bookingStatisticsData?.payload) return [];
 		return [
-			{ name: 'Booking Count', value: bookingStatisticsData.payload.monthlyData.DECEMBER.bookingCount },
-			{ name: 'Total Amount', value: bookingStatisticsData.payload.monthlyData.DECEMBER.amount },
+			{ name: 'Số lượng đặt chỗ', value: bookingStatisticsData.payload.monthlyData.DECEMBER.bookingCount },
+			{ name: 'Tổng số tiền', value: bookingStatisticsData.payload.monthlyData.DECEMBER.amount },
 		];
 	}, [bookingStatisticsData]);
 
@@ -205,37 +199,25 @@ export default function DashBoardPage() {
 				<div className='rounded-lg bg-gray-800/50 backdrop-blur-sm p-6'>
 					{/* Header */}
 					<div className='flex justify-between items-center mb-6'>
-						<h1 className='text-2xl font-bold text-white'>DASHBOARD MANAGE</h1>
+						<h1 className='text-2xl font-bold text-white'>QUẢN LÝ BẢNG ĐIỀU KHIỂN</h1>
 					</div>
 
 					<div className='grid md:grid-cols-3 gap-6'>
 						{/* Staff Performance Bar Chart */}
 						<div className='md:col-span-2 bg-gray-800 p-4 rounded-lg'>
-							<h3 className='text-sm font-medium text-gray-400 mb-4'>Top Staff Performance</h3>
-							<ResponsiveContainer width='100%' height={400}>
-								<BarChart data={transformedStaffChartData}
-								margin={{ left: 50 }}
-								>
-
-
-									<XAxis
-										dataKey='name'
-										fill= 'red'
-										stroke='#8ac7f6'
-										label={{ value: 'Staff Name', position: 'insideBottom', offset: -5 }}
-										tickFormatter={() => ``}
-										hide
-
-									/>
+							<h3 className='text-sm font-medium text-gray-400 mb-4'>Hiệu suất nhân viên hàng đầu</h3>
+							<ResponsiveContainer width='100%' height={300}>
+								<BarChart data={transformedStaffChartData}>
+									<XAxis dataKey='name' stroke='#f3f3f3' hide />
 									<YAxis stroke='#eee' />
-									<Tooltip contentStyle={{ color: 'red'}}/>
-									<Bar dataKey='amountMade' name='Revenue' fill='#8ac7f6' />
-									<Bar dataKey='bookingCount' name='Bookings' fill='#82ca9d' />
+									<Tooltip />
+									<Bar dataKey='amountMade' name='Doanh thu' fill='#8ac7f6' />
+									<Bar dataKey='bookingCount' name='Đặt chỗ' fill='#82ca9d' />
 								</BarChart>
 							</ResponsiveContainer>
 						</div>
 						<div className='bg-gray-800 p-4 rounded-lg'>
-							<h3 className='text-sm font-medium text-gray-400 mb-4'>Booking Statistics</h3>
+							<h3 className='text-sm font-medium text-gray-400 mb-4'>Thống kê đặt chỗ</h3>
 							<ResponsiveContainer width='100%' height={300}>
 								<PieChart>
 									<Pie
@@ -251,68 +233,50 @@ export default function DashBoardPage() {
 											<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
 										))}
 									</Pie>
-									<Tooltip  />
+									<Tooltip />
 									<Legend />
 								</PieChart>
 							</ResponsiveContainer>
 						</div>
 
-						{/* Customer Performance Bar Chart */}
+						{/* Other Charts */}
 						<div className='md:col-span-2 bg-gray-800 p-4 rounded-lg'>
-							<h3 className='text-sm font-medium text-gray-400 mb-4'>Top Customer Performance</h3>
+							<h3 className='text-sm font-medium text-gray-400 mb-4'>Hiệu suất khách hàng hàng đầu</h3>
 							<ResponsiveContainer width='100%' height={300}>
-								<BarChart data={transformedCustomerChartData}
-										  margin={{ left: 50 }}>
-									<XAxis
-										dataKey='name'
-										stroke='#ccc'
-										label={{ value: 'Customer Name', position: 'insideBottom', offset: -5 }}
-										hide
-									/>
+								<BarChart data={transformedCustomerChartData}>
+									<XAxis dataKey='name' stroke='#ccc' hide />
 									<YAxis stroke='#ccc' />
-									<Tooltip  contentStyle={{ color: 'red'}} />
-									<Bar dataKey='amountMade' name='Revenue' fill='#8ac7f6' />
-									<Bar dataKey='bookingCount' name='Bookings' fill='#8ac7f6' />
+									<Tooltip />
+									<Bar dataKey='amountMade' name='Doanh thu' fill='#8ac7f6' />
+									<Bar dataKey='bookingCount' name='Đặt chỗ' fill='#82ca9d' />
 								</BarChart>
 							</ResponsiveContainer>
 						</div>
 						<div className='md:col-span-2 bg-gray-800 p-4 rounded-lg'>
 							<h3 className='text-sm font-medium text-gray-400 mb-4'>
-								Top Booking Service Popular Performance
+								Hiệu suất phổ biến dịch vụ đặt chỗ hàng đầu
 							</h3>
 							<ResponsiveContainer width='100%' height={300}>
-								<BarChart data={transformedBookingServiceChartData}
-										  margin={{ left: 50 }}>
-									<XAxis
-										dataKey='name'
-										stroke='#ccc'
-										label={{ value: 'Customer Name', position: 'insideBottom', offset: -5 }}
-										hide
-									/>
+								<BarChart data={transformedBookingServiceChartData}>
+									<XAxis dataKey='name' stroke='#ccc' hide />
 									<YAxis stroke='#ccc' />
-									<Tooltip  contentStyle={{ color: 'red'}} />
-									<Bar dataKey='amountMade' name='Revenue' fill='#8ac7f6' />
-									<Bar dataKey='bookingCount' name='Bookings' fill='#8ac7f6' />
+									<Tooltip />
+									<Bar dataKey='amountMade' name='Doanh thu' fill='#8ac7f6' />
+									<Bar dataKey='bookingCount' name='Đặt chỗ' fill='#82ca9d' />
 								</BarChart>
 							</ResponsiveContainer>
 						</div>
 						<div className='md:col-span-2 bg-gray-800 p-4 rounded-lg'>
 							<h3 className='text-sm font-medium text-gray-400 mb-4'>
-								Top Booking Combo Popular Performance
+								Hiệu suất phổ biến combo đặt chỗ hàng đầu
 							</h3>
-							<ResponsiveContainer width='30%' height={300}>
-								<BarChart data={transformedBookingComboChartData}
-										  margin={{ left: 50 }}>
-									<XAxis
-										dataKey='name'
-										stroke='#ccc'
-										label={{ value: 'Customer Name', position: 'insideBottom', offset: -5 }}
-										hide
-									/>
+							<ResponsiveContainer width='100%' height={300}>
+								<BarChart data={transformedBookingComboChartData}>
+									<XAxis dataKey='name' stroke='#ccc' />
 									<YAxis stroke='#ccc' />
-									<Tooltip  contentStyle={{ color: 'red'}} />
-									<Bar dataKey='amountMade' name='Revenue' fill='#8ac7f6' />
-									<Bar dataKey='bookingCount' name='Bookings' fill='#8ac7f6' />
+									<Tooltip />
+									<Bar dataKey='amountMade' name='Doanh thu' fill='#8ac7f6' />
+									<Bar dataKey='bookingCount' name='Đặt chỗ' fill='#82ca9d' />
 								</BarChart>
 							</ResponsiveContainer>
 						</div>

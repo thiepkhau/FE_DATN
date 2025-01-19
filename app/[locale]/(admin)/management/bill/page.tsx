@@ -35,7 +35,7 @@ const Bills = () => {
 	return (
 		<PageContainer>
 			<div className='flex flex-col gap-5'>
-				<h1 className='text-2xl font-bold text-center text-white'>BILL VIEW</h1>
+				<h1 className='text-2xl font-bold text-center text-white'>BILL MANAGEMENT</h1>
 				<div className='rounded-xl bg-gray-800/50 backdrop-blur-sm overflow-hidden border border-gray-700'>
 					<div className='overflow-x-auto'>
 						{payments.length === 0 ? (

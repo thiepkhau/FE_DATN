@@ -101,15 +101,12 @@ export default function Service() {
 
 	return (
 		<PageContainer>
-
-			<h1 className='text-2xl font-bold text-center text-white'>MANAGE SERVICE</h1>
-			<br/>
 			<Button
 				className='fixed top-8 right-8 rounded-full shadow-lg border'
 				size='lg'
 				onClick={handleAddServiceClick}
 			>
-				<Plus className='w-6 h-6 mr-2'/>
+				<Plus className='w-6 h-6 mr-2' />
 				ADD SERVICE
 			</Button>
 
@@ -134,9 +131,8 @@ export default function Service() {
 										</SwiperSlide>
 									))}
 								</Swiper>
-								<div
-									className='absolute top-2 right-2 bg-black/70 text-white px-2 py-1 text-xs font-bold rounded flex items-center'>
-									<Clock className='mr-1 w-4 h-4'/> <span>{service.estimateTime} minutes</span>
+								<div className='absolute top-2 right-2 bg-black/70 text-white px-2 py-1 text-xs font-bold rounded flex items-center'>
+									<Clock className='mr-1 w-4 h-4' /> <span>{service.estimateTime} minutes</span>
 								</div>
 							</div>
 							<div className='p-4'>
@@ -146,7 +142,7 @@ export default function Service() {
 									{service.serviceType.name}
 								</span>
 								<p className='font-semibold text-xl mt-2 text-red-500'>
-									{service.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}
+									{service.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
 								</p>
 							</div>
 						</CardContent>
@@ -157,7 +153,7 @@ export default function Service() {
 								className='text-green-600 hover:text-green-700 hover:bg-green-50 w-1/2'
 								onClick={() => handleEditClick(service)}
 							>
-								<Edit className='w-4 h-4 mr-2'/>
+								<Edit className='w-4 h-4 mr-2' />
 								Edit
 							</Button>
 							<Button
@@ -166,7 +162,7 @@ export default function Service() {
 								className='text-red-600 hover:text-red-700 hover:bg-red-50 w-1/2'
 								onClick={() => handleDeleteService(service.id)}
 							>
-								<Trash2 className='w-4 h-4 mr-2'/>
+								<Trash2 className='w-4 h-4 mr-2' />
 								Delete
 							</Button>
 						</CardFooter>
@@ -181,7 +177,7 @@ export default function Service() {
 					disabled={currentPage === 1}
 					className='bg-white text-black'
 				>
-					<ChevronLeft className='w-4 h-4 mr-2'/>
+					<ChevronLeft className='w-4 h-4 mr-2' />
 					Previous
 				</Button>
 				<span className='text-sm text-white'>
@@ -194,12 +190,12 @@ export default function Service() {
 					className='bg-white text-black'
 				>
 					Next
-					<ChevronRight className='w-4 h-4 ml-2'/>
+					<ChevronRight className='w-4 h-4 ml-2' />
 				</Button>
 			</div>
 
 			<Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-				<EditStylistForm stylist={selectedService} mode={mode} onClose={handleCloseModal}/>
+				<EditStylistForm stylist={selectedService} mode={mode} onClose={handleCloseModal} />
 			</Modal>
 		</PageContainer>
 	);

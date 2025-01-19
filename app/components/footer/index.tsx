@@ -21,7 +21,7 @@ function Footer() {
 			<div className='container-lg grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
 				{/* Address Section */}
 				<div>
-					<h3 className='text-lg font-semibold mb-4'>{t('Address1')}</h3>
+					<h3 className='text-lg font-semibold mb-4'>{t('Address')}</h3>
 					<ul className='space-y-4'>
 						{address.map((item, index) => (
 							<li key={index} className='flex flex-col space-y-2'>
@@ -83,7 +83,7 @@ function Footer() {
 
 			{/* Footer Bottom */}
 			<div className='mt-8 border-t border-gray-700 pt-4 text-center text-gray-400'>
-				<p>&copy; {new Date().getFullYear()} Barber Shop. All rights reserved.</p>
+				<p>&copy; {new Date().getFullYear()} Your Company Name. All rights reserved.</p>
 			</div>
 		</footer>
 	);
